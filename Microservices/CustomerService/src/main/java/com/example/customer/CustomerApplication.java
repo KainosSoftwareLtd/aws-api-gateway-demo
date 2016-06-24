@@ -1,30 +1,29 @@
-package com.example.food;
+package com.example.customer;
 
-import com.example.food.api.Food;
-import com.example.food.db.FoodDao;
-import com.example.food.resources.FoodResource;
+import com.example.customer.api.Customer;
+import com.example.customer.db.CustomerDao;
+import com.example.customer.resources.CustomerResource;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 /**
  * Created by adrianz on 20/06/16.
  */
-public class FoodApplication extends Application<AppConfiguration> {
+public class CustomerApplication extends Application<AppConfiguration> {
 
-    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<AppConfiguration>(Food.class) {
+    private final HibernateBundle<AppConfiguration> hibernate = new HibernateBundle<AppConfiguration>(Customer.class) {
         public DataSourceFactory getDataSourceFactory(AppConfiguration configuration) {
             return configuration.getDataSourceFactory();
         }
     };
 
     public static void main(String[] args) throws Exception {
-        new FoodApplication().run(args);
+        new CustomerApplication().run(args);
     }
 
     @Override
@@ -48,8 +47,8 @@ public class FoodApplication extends Application<AppConfiguration> {
 
     @Override
     public void run(AppConfiguration configuration, Environment environment) {
-        final FoodDao dao = new FoodDao(hibernate.getSessionFactory());
-        environment.jersey().register(new FoodResource(dao));
+        final CustomerDao dao = new CustomerDao(hibernate.getSessionFactory());
+        environment.jersey().register(new CustomerResource(dao));
     }
 
 }
