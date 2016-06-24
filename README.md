@@ -13,11 +13,10 @@ Enviroment variables with default values:
 
 ## Food Service
 ### Supported methods
-
-> POST    /food 
-> GET     /food?id={id} 
-> PUT     /food/{id}  
-> DELETE /food/{id}
+* POST    /food
+* GET     /food?id={id}
+* PUT     /food/{id}
+* DELETE /food/{id}
 
 ## Cart Service
 ...
