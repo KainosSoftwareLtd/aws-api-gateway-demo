@@ -21,6 +21,7 @@ Environment variables with default values:
 ### Supported methods
 * POST    localhost:8080/food
 * GET     localhost:8080/food?id={id}
+* GET     localhost:8080/food/allForCustomer/{customerId}
 * PUT     localhost:8080/food/{id}
 * DELETE  localhost:8080/food/{id}
 
@@ -32,4 +33,4 @@ Environment variables with default values:
 * DELETE  localhost:8082/customer/{id}
 
 ## TODO
-* create a relationship between both services
+* Add tests
