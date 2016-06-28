@@ -1,7 +1,7 @@
 package com.kainos.apigateways.aws.demo.customer.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.kainos.apigateways.aws.demo.customer.api.Customer;
+import com.kainos.apigateways.aws.demo.customer.entities.Customer;
 import com.kainos.apigateways.aws.demo.customer.db.CustomerDao;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;

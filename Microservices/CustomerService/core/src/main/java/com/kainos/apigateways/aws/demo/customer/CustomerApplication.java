@@ -1,6 +1,6 @@
 package com.kainos.apigateways.aws.demo.customer;
 
-import com.kainos.apigateways.aws.demo.customer.api.Customer;
+import com.kainos.apigateways.aws.demo.customer.entities.Customer;
 import com.kainos.apigateways.aws.demo.customer.db.CustomerDao;
 import com.kainos.apigateways.aws.demo.customer.resources.CustomerResource;
 import io.dropwizard.Application;

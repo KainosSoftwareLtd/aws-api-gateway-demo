@@ -30,7 +30,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>com.kainos.apigateways.aws.demo.customer.CustomerApplication</mainClass>
+                  <mainClass>com.kainos.apigateways.aws.demo.customerId.CustomerApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>

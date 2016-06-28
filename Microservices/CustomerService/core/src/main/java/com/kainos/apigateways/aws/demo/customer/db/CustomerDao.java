@@ -1,6 +1,6 @@
 package com.kainos.apigateways.aws.demo.customer.db;
 
-import com.kainos.apigateways.aws.demo.customer.api.Customer;
+import com.kainos.apigateways.aws.demo.customer.entities.Customer;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;

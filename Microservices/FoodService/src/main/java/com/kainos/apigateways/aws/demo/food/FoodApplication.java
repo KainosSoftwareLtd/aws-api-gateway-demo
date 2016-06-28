@@ -1,8 +1,8 @@
 package com.kainos.apigateways.aws.demo.food;
 
-import com.kainos.apigateways.aws.demo.food.api.Food;
-import com.kainos.apigateways.aws.demo.food.resources.FoodResource;
+import com.kainos.apigateways.aws.demo.food.entities.Food;
 import com.kainos.apigateways.aws.demo.food.db.FoodDao;
+import com.kainos.apigateways.aws.demo.food.resources.FoodResource;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;

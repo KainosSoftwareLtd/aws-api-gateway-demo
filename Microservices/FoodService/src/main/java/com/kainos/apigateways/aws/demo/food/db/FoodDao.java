@@ -1,9 +1,11 @@
 package com.kainos.apigateways.aws.demo.food.db;
 
-import com.kainos.apigateways.aws.demo.food.api.Food;
+import com.kainos.apigateways.aws.demo.food.entities.Food;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+
+import java.util.List;
 
 /**
  * Created by adrianz on 21/06/16.
@@ -36,8 +38,8 @@ public class FoodDao extends AbstractDAO<Food> {
 
         Food updatedFood = get(id);
 
-        if (food.getCustomer_id() != null) {
-            updatedFood.setCustomer_id(food.getCustomer_id());
+        if (food.getCustomerId() != null) {
+            updatedFood.setCustomerId(food.getCustomerId());
         }
         if (food.getPrice() != null) {
             updatedFood.setPrice(food.getPrice());
@@ -52,4 +54,9 @@ public class FoodDao extends AbstractDAO<Food> {
         currentSession().update(updatedFood);
     }
 
+    public List<Food> findForCustomer(Long customerId) {
+        Query query = currentSession().createQuery("from Food f where f.customerId=:customerId");
+        query.setLong("customerId", customerId);
+        return query.list();
+    }
 }

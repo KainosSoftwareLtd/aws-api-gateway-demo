@@ -1,13 +1,14 @@
 package com.kainos.apigateways.aws.demo.food.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.kainos.apigateways.aws.demo.food.api.Food;
 import com.kainos.apigateways.aws.demo.food.db.FoodDao;
+import com.kainos.apigateways.aws.demo.food.entities.Food;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * Created by adrianz on 21/06/16.
@@ -30,14 +31,23 @@ public class FoodResource {
         return foodDao.findById(id.get());
     }
 
-    @POST
+    @GET
     @Timed
     @UnitOfWork
-    public long createFood(@FormParam("customer_id") Long customer_id,
+    @Path("/allForCustomer/{customerId}")
+    public List<Food> allFoodForCustomer(@PathParam("customerId")  LongParam customerId) {
+        return foodDao.findForCustomer(customerId.get());
+    }
+
+        @POST
+    @Timed
+    @UnitOfWork
+    public long createFood(@FormParam("customerId") Long customerId,
                            @FormParam("name") String name,
                            @FormParam("quantity") double quantity,
                            @FormParam("price") int price) {
-        return foodDao.create(new Food(customer_id, name, quantity, price));
+
+        return foodDao.create(new Food(customerId, name, quantity, price));
     }
 
     @DELETE

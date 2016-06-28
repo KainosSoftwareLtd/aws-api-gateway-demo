@@ -1,4 +1,4 @@
-package com.kainos.apigateways.aws.demo.customer.api;
+package com.kainos.apigateways.aws.demo.customer.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
@@ -14,26 +14,24 @@ import javax.persistence.Id;
 @Entity
 public class Customer {
 
+    @JsonProperty
     @Id @GeneratedValue
     private Long id;
 
     @Length(min = 2)
+    @JsonProperty
     private String name;
 
     public Customer(String name) {
         this.name = name;
     }
 
-    public Customer() {
-        //deserialization
-    }
+    public Customer() {}
 
-    @JsonProperty
     public Long getId() {
         return id;
     }
 
-    @JsonProperty
     public String getName() {
         return name;
     }
@@ -45,4 +43,5 @@ public class Customer {
     public void setName(String name) {
         this.name = name;
     }
+
 }

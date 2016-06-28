@@ -1,4 +1,4 @@
-package com.kainos.apigateways.aws.demo.food.api;
+package com.kainos.apigateways.aws.demo.food.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 
 /**
@@ -17,47 +16,44 @@ import javax.validation.constraints.Min;
 public class Food {
 
     @Id @GeneratedValue
+    @JsonProperty
     private Long id;
 
-    @ManyToOne
-    private Long customer_id;
+    private Long customerId;
 
     @Length(min = 2)
+    @JsonProperty
     private String name;
 
     @Min(value = 0)
+    @JsonProperty
     private Double quantity;
 
     @Min(value = 0)
+    @JsonProperty
     private Integer price;
 
-    public Food(Long customer_id, String name, Double quantity, int price) {
-        this.customer_id = customer_id;
+    public Food(Long customerId, String name, Double quantity, int price) {
+        this.customerId = customerId;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public Food() {
-        //deserialization
-    }
+    public Food() {}
 
-    @JsonProperty
     public Long getId() {
         return id;
     }
 
-    @JsonProperty
     public String getName() {
         return name;
     }
 
-    @JsonProperty
     public Double getQuantity() {
         return quantity;
     }
 
-    @JsonProperty
     public Integer getPrice() {
         return price;
     }
@@ -78,7 +74,7 @@ public class Food {
         this.price = price;
     }
 
-    public Long getCustomer_id() { return customer_id; }
+    public Long getCustomerId() { return customerId; }
 
-    public void setCustomer_id(Long customer_id) { this.customer_id = customer_id; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 }
