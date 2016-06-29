@@ -25,9 +25,10 @@ public class FoodResource {
     }
 
     @GET
+    @Path("/{id}")
     @Timed
     @UnitOfWork
-    public Food findFood(@QueryParam("id")  LongParam id) {
+    public Food findFood(@PathParam("id")  LongParam id) {
         return foodDao.findById(id.get());
     }
 

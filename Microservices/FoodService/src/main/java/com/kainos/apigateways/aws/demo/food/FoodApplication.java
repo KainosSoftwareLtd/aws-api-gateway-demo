@@ -42,7 +42,6 @@ public class FoodApplication extends Application<AppConfiguration> {
                 )
         );
 
-
     }
 
     @Override

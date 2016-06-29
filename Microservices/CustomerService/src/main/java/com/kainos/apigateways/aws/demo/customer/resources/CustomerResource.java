@@ -24,9 +24,10 @@ public class CustomerResource {
     }
 
     @GET
+    @Path("/{id}")
     @Timed
     @UnitOfWork
-    public Customer findCustomer(@QueryParam("id")  LongParam id) {
+    public Customer findCustomer(@PathParam("id")  LongParam id) {
         return customerDao.findById(id.get());
     }
 
