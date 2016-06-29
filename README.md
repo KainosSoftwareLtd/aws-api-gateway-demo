@@ -20,11 +20,7 @@ Environment variables with default values:
 ## Food Service
 ### Supported methods
 * POST    localhost:8080/food
-<<<<<<< HEAD
 * GET     localhost:8080/food/{id}
-=======
-* GET     localhost:8080/food?id={id}
->>>>>>> 717cd23b92ac08e1b0e37fc838001bb4922e4493
 * GET     localhost:8080/food/allForCustomer/{customerId}
 * PUT     localhost:8080/food/{id}
 * DELETE  localhost:8080/food/{id}
@@ -37,8 +33,4 @@ Environment variables with default values:
 * DELETE  localhost:8082/customer/{id}
 
 ## TODO
-<<<<<<< HEAD
 * Add more tests
-=======
-* Add tests
->>>>>>> 717cd23b92ac08e1b0e37fc838001bb4922e4493
