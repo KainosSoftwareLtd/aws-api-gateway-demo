@@ -26,7 +26,7 @@ public class CustomerResource {
     @Path("/{id}")
     @Timed
     @UnitOfWork
-    public Customer findCustomer(@PathParam("id") LongParam id) {
+    public Customer find(@PathParam("id") LongParam id) {
         throwIfCustomerNotFound(id.get());
         return customerDao.findById(id.get());
     }
@@ -34,9 +34,7 @@ public class CustomerResource {
     @POST
     @Timed
     @UnitOfWork
-    public long createCustomer(@FormParam("name") String name,
-                               @FormParam("quantity") double quantity,
-                               @FormParam("price") int price) {
+    public long create(@FormParam("name") String name){
         return customerDao.create(new Customer(name));
     }
 
@@ -55,6 +53,7 @@ public class CustomerResource {
     @Produces({MediaType.APPLICATION_JSON})
     public boolean update(@PathParam("id") LongParam id, Customer customer) {
         throwIfCustomerNotFound(id.get());
+        customer = fillNullFieldsWithOriginalValues(id.get(), customer);
         customerDao.update(id.get(), customer);
         return true;
     }
@@ -71,5 +70,21 @@ public class CustomerResource {
             logger.debug(message);
             throw new BadRequestException(message);
         }
+    }
+    /**
+     * Prevent updated Customer from having null fields that appear when some values were unspecified
+     *
+     * @param originalCustomerId Id of customer which fields will fill any null values
+     * @param originalCustomerId Id of customer which fields will fill any null values
+     * @param newCustomer        Customer with updated or null values that came from a request
+     * @return Customer with null values replaced by original ones
+     */
+    private Customer fillNullFieldsWithOriginalValues(Long originalCustomerId, Customer newCustomer) {
+        Customer originalCustomer = customerDao.findById(originalCustomerId);
+        newCustomer.setId(originalCustomerId);
+        if (newCustomer.getName() == null) {
+            newCustomer.setName(originalCustomer.getName());
+        }
+        return newCustomer;
     }
 }

@@ -32,12 +32,9 @@ public class CustomerDao extends AbstractDAO<Customer> {
     }
 
     public void update(Long id, Customer customer) {
-
         Customer updatedCustomer = get(id);
 
-        if (customer.getName() != null) {
-            updatedCustomer.setName(customer.getName());
-        }
+        updatedCustomer.setName(customer.getName());
 
         currentSession().update(updatedCustomer);
     }

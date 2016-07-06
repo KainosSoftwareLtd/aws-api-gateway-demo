@@ -32,21 +32,12 @@ public class FoodDao extends AbstractDAO<Food> {
     }
 
     public void update(Long id, Food food) {
-
         Food updatedFood = get(id);
 
-        if (food.getCustomerId() != null) {
-            updatedFood.setCustomerId(food.getCustomerId());
-        }
-        if (food.getPrice() != null) {
-            updatedFood.setPrice(food.getPrice());
-        }
-        if (food.getName() != null) {
-            updatedFood.setName(food.getName());
-        }
-        if (food.getQuantity() != null) {
-            updatedFood.setQuantity(food.getQuantity());
-        }
+        updatedFood.setCustomerId(food.getCustomerId());
+        updatedFood.setPrice(food.getPrice());
+        updatedFood.setName(food.getName());
+        updatedFood.setQuantity(food.getQuantity());
 
         currentSession().update(updatedFood);
     }

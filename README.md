@@ -16,6 +16,7 @@ Environment variables with default values:
 	server config.yml
 
 ## Food Service
+Default port: 8080
 ### Supported methods
 * POST    /food
 * GET     /food/{id}
@@ -24,6 +25,7 @@ Environment variables with default values:
 * DELETE  /food/{id}
 
 ## Customer Service
+Default port: 8082
 ### Supported methods
 * POST    /customer
 * GET     /customer/{id}

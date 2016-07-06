@@ -27,7 +27,7 @@ public class FoodResource {
     @Path("/{id}")
     @Timed
     @UnitOfWork
-    public Food findFood(@PathParam("id") LongParam id) {
+    public Food find(@PathParam("id") LongParam id) {
         throwIfFoodNotFound(id.get());
         return foodDao.findById(id.get());
     }
@@ -36,17 +36,17 @@ public class FoodResource {
     @Timed
     @UnitOfWork
     @Path("/allForCustomer/{customerId}")
-    public List<Food> allFoodForCustomer(@PathParam("customerId") LongParam customerId) {
+    public List<Food> allForCustomer(@PathParam("customerId") LongParam customerId) {
         return foodDao.findForCustomer(customerId.get());
     }
 
     @POST
     @Timed
     @UnitOfWork
-    public long createFood(@FormParam("customerId") Long customerId,
-                           @FormParam("name") String name,
-                           @FormParam("quantity") double quantity,
-                           @FormParam("price") int price) {
+    public long create(@FormParam("customerId") Long customerId,
+                       @FormParam("name") String name,
+                       @FormParam("quantity") double quantity,
+                       @FormParam("price") int price) {
         return foodDao.create(new Food(customerId, name, quantity, price));
     }
 
@@ -65,6 +65,7 @@ public class FoodResource {
     @Produces({MediaType.APPLICATION_JSON})
     public boolean update(@PathParam("id") LongParam id, Food food) {
         throwIfFoodNotFound(id.get());
+        food = fillNullFieldsWithOriginalValues(id.get(), food);
         foodDao.update(id.get(), food);
         return true;
     }
@@ -82,5 +83,30 @@ public class FoodResource {
             logger.debug(message);
             throw new BadRequestException(message);
         }
+    }
+
+    /**
+     * Prevent updated Food from having null fields that appear when some values were unspecified
+     *
+     * @param originalFoodId Id of food which fields will fill any null values
+     * @param originalFoodId Id of food which fields will fill any null values
+     * @param newFood        Food with updated or null values that came from a request
+     * @return Food with null values replaced by original ones
+     */
+    private Food fillNullFieldsWithOriginalValues(Long originalFoodId, Food newFood) {
+        Food originalFood = foodDao.findById(originalFoodId);
+
+        newFood.setCustomerId(originalFood.getCustomerId());
+
+        if (newFood.getPrice() == null) {
+            newFood.setPrice(originalFood.getPrice());
+        }
+        if (newFood.getName() == null) {
+            newFood.setName(originalFood.getName());
+        }
+        if (newFood.getQuantity() == null) {
+            newFood.setQuantity(originalFood.getQuantity());
+        }
+        return newFood;
     }
 }
