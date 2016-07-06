@@ -7,9 +7,6 @@ import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-/**
- * Created by adrianz on 21/06/16.
- */
 public class FoodDao extends AbstractDAO<Food> {
     public FoodDao(SessionFactory factory) {
         super(factory);

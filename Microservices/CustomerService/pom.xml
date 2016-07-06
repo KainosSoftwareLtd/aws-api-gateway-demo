@@ -11,7 +11,6 @@
         <dropwizard.version>0.9.2</dropwizard.version>
     </properties>
 
-
     <dependencies>
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -63,7 +62,6 @@
                     </archive>
                 </configuration>
             </plugin>
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

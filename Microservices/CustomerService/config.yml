@@ -41,17 +41,14 @@ database:
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
 
-#logging:
-#  level: INFO
-#  loggers:
-#    "io.dropwizard": INFO
-#    "org.hibernate.SQL":
-#      level: DEBUG
-#      additive: false
-#      appenders:
-#        - type: file
-#          currentLogFilename: /var/log/dropwizard/myapplication-sql.log
-#          archivedLogFilenamePattern: /var/log/dropwizard/myapplication-sql-%d.log.gz
-#          archivedFileCount: 5
-#  appenders:
-#    - type: console
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      threshold: ALL
+      target: stdout
+
+  loggers:
+    "io.dropwizard": INFO
+    "org.hibernate.SQL": INFO
+    "com.kainos.apigateways.aws.demo.customer": DEBUG

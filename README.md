@@ -8,8 +8,6 @@ Environment variables with default values:
 
 	export DWDEMO_USER=username 
     export DWDEMO_PASSWORD=secret
-    export DWDEMO_DBURL=jdbc:postgresql://localhost/microservices-demo
-    export DWDEMO_HIBERDIALECT=org.hibernate.dialect.PostgreSQLDialect
 
 * Provide arguments needed to run a program 
 
@@ -19,18 +17,15 @@ Environment variables with default values:
 
 ## Food Service
 ### Supported methods
-* POST    localhost:8080/food
-* GET     localhost:8080/food/{id}
-* GET     localhost:8080/food/allForCustomer/{customerId}
-* PUT     localhost:8080/food/{id}
-* DELETE  localhost:8080/food/{id}
+* POST    /food
+* GET     /food/{id}
+* GET     /food/allForCustomer/{customerId}
+* PUT     /food/{id}
+* DELETE  /food/{id}
 
 ## Customer Service
 ### Supported methods
-* POST    localhost:8082/customer
-* GET     localhost:8082/customer/{id}
-* PUT     localhost:8082/customer/{id}
-* DELETE  localhost:8082/customer/{id}
-
-## TODO
-* Add more tests
+* POST    /customer
+* GET     /customer/{id}
+* PUT     /customer/{id}
+* DELETE  /customer/{id}
