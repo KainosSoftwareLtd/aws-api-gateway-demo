@@ -94,6 +94,8 @@ public class FoodResource {
      * @return Food with null values replaced by original ones
      */
     private Food fillNullFieldsWithOriginalValues(Long originalFoodId, Food newFood) {
+        logger.debug("Filling null fields of an updated Food (foodId=" + originalFoodId + ") with original values");
+        logger.trace("Food fields that will be updated: " + newFood);
         Food originalFood = foodDao.findById(originalFoodId);
 
         newFood.setCustomerId(originalFood.getCustomerId());

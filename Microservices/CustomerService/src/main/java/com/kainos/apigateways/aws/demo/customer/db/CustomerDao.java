@@ -15,9 +15,7 @@ public class CustomerDao extends AbstractDAO<Customer> {
     }
 
     public void delete(Long id) {
-
         Customer customer = findById(id);
-        deleteFoodOwnedByCustomer(id);
         currentSession().delete(customer);
     }
 
@@ -33,21 +31,7 @@ public class CustomerDao extends AbstractDAO<Customer> {
 
     public void update(Long id, Customer customer) {
         Customer updatedCustomer = get(id);
-
         updatedCustomer.setName(customer.getName());
-
         currentSession().update(updatedCustomer);
-    }
-
-    /**
-     * Delete all food entities with given customerId.
-     *
-     * @param customerId Customer identifier
-     * @return The number of deleted entities.
-     */
-    private int deleteFoodOwnedByCustomer(Long customerId) {
-        Query query = currentSession().createQuery("delete from Food f where f.customerId=:customerId");
-        query.setLong("customerId", customerId);
-        return query.executeUpdate();
     }
 }

@@ -67,7 +67,7 @@ public class CustomerResource {
     private void throwIfCustomerNotFound(Long customerId) {
         if (!customerDao.exists(customerId)) {
             String message = "Customer with id = " + customerId + " does not exist";
-            logger.debug(message);
+            logger.warn(message);
             throw new BadRequestException(message);
         }
     }
@@ -80,6 +80,8 @@ public class CustomerResource {
      * @return Customer with null values replaced by original ones
      */
     private Customer fillNullFieldsWithOriginalValues(Long originalCustomerId, Customer newCustomer) {
+        logger.debug("Filling null fields of an updated customer (customerId=" + originalCustomerId + ") with original values");
+        logger.trace("Customer fields that will be updated: " + newCustomer);
         Customer originalCustomer = customerDao.findById(originalCustomerId);
         newCustomer.setId(originalCustomerId);
         if (newCustomer.getName() == null) {
