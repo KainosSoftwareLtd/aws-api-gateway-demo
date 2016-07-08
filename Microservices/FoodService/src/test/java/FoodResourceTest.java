@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import javax.ws.rs.BadRequestException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -89,5 +90,32 @@ public class FoodResourceTest {
         when(dao.exists(1)).thenReturn(true);
         resource.find(new LongParam("1"));
         verify(dao, times(1)).findById((long) 1);
+    }
+
+    @Test
+    public void buyCallsFindAndUpdateOnce() {
+        //pretend that Food with id=1 exists
+        when(dao.exists(1)).thenReturn(true);
+        resource.buy(new LongParam("1"), (long) 1);
+        verify(dao, times(1)).findById((long) 1);
+        verify(dao, times(1)).update(any(Food.class));
+    }
+
+    @Test
+    public void buyFailsIfCustomerIdIsNull() {
+        //pretend that Food with id=1 exists
+        when(dao.exists(1)).thenReturn(true);
+        boolean response = resource.buy(new LongParam("1"), null);
+
+        assertThat(response).isFalse();
+    }
+
+    @Test
+    public void buySucceedsIfFoodExistsAndCustomerIsNotNull() {
+        //pretend that Food with id=1 exists
+        when(dao.exists(1)).thenReturn(true);
+        boolean response = resource.buy(new LongParam("1"), (long) 1);
+
+        assertThat(response).isTrue();
     }
 }

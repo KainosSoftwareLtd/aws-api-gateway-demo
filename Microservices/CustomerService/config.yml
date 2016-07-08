@@ -51,4 +51,4 @@ logging:
   loggers:
     "io.dropwizard": INFO
     "org.hibernate.SQL": INFO
-    "com.kainos.apigateways.aws.demo.food.resources.CustomerResource": TRACE
+    "com.kainos.apigateways.aws.demo.food.resources.CustomerResource": INFO

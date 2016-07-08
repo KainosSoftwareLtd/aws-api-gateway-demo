@@ -28,6 +28,7 @@ Environment variables with default values:
 Default port: 8080
 ### Supported methods
 * POST    /food
+* POST    /food/buy/{id}
 * GET     /food/{id}
 * GET     /food/allForCustomer/{customerId}
 * PUT     /food/{id}

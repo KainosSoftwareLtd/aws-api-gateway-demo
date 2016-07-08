@@ -70,6 +70,24 @@ public class FoodResource {
         return true;
     }
 
+    @Path("/buy/{id}")
+    @POST
+    @Timed
+    @UnitOfWork
+    public boolean buy(@PathParam("id") LongParam id,
+                    @FormParam("customerId") Long customerId) {
+        throwIfFoodNotFound(id.get());
+        Food food = foodDao.findById(id.get());
+        logger.debug("Buying Food for Customer with id=" + customerId);
+
+        if (customerId == null){
+            logger.warn("No customerId provided in a buy request");
+            return false;
+        }
+        logger.trace("Food that will be bought: " + food);
+        foodDao.update(food);
+        return true;
+    }
 
     /**
      * Throw BadRequestException if food with given foodId doesn't exist.
