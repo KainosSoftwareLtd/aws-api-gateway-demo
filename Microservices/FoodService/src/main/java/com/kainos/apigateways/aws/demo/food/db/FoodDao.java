@@ -31,15 +31,8 @@ public class FoodDao extends AbstractDAO<Food> {
         return (query.uniqueResult() != null);
     }
 
-    public void update(Long id, Food food) {
-        Food updatedFood = get(id);
-
-        updatedFood.setCustomerId(food.getCustomerId());
-        updatedFood.setPrice(food.getPrice());
-        updatedFood.setName(food.getName());
-        updatedFood.setQuantity(food.getQuantity());
-
-        currentSession().update(updatedFood);
+    public void update(Food food) {
+        currentSession().update(food);
     }
 
     public List<Food> findForCustomer(Long customerId) {

@@ -10,8 +10,6 @@ import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CustomerApplication extends Application<AppConfiguration> {
 
@@ -43,7 +41,6 @@ public class CustomerApplication extends Application<AppConfiguration> {
     @Override
     public void run(AppConfiguration configuration, Environment environment) {
         final CustomerDao dao = new CustomerDao(hibernate.getSessionFactory());
-        final Logger logger = LoggerFactory.getLogger("com.kainos.apigateways.aws.demo.customer");
-        environment.jersey().register(new CustomerResource(dao, logger));
+        environment.jersey().register(new CustomerResource(dao));
     }
 }

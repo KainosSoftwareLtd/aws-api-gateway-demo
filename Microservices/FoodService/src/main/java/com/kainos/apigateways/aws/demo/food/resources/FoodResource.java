@@ -6,6 +6,7 @@ import com.kainos.apigateways.aws.demo.food.entities.Food;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,18 +16,17 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class FoodResource {
 
+    private static final Logger logger = LoggerFactory.getLogger(FoodResource.class);
     private final FoodDao foodDao;
-    private final Logger logger;
 
-    public FoodResource(FoodDao foodDao, Logger logger) {
+    public FoodResource(FoodDao foodDao) {
         this.foodDao = foodDao;
-        this.logger = logger;
     }
 
     @GET
     @Path("/{id}")
     @Timed
-    @UnitOfWork
+    @UnitOfWork(readOnly = true)
     public Food find(@PathParam("id") LongParam id) {
         throwIfFoodNotFound(id.get());
         return foodDao.findById(id.get());
@@ -34,7 +34,7 @@ public class FoodResource {
 
     @GET
     @Timed
-    @UnitOfWork
+    @UnitOfWork(readOnly = true)
     @Path("/allForCustomer/{customerId}")
     public List<Food> allForCustomer(@PathParam("customerId") LongParam customerId) {
         return foodDao.findForCustomer(customerId.get());
@@ -66,7 +66,7 @@ public class FoodResource {
     public boolean update(@PathParam("id") LongParam id, Food food) {
         throwIfFoodNotFound(id.get());
         food = fillNullFieldsWithOriginalValues(id.get(), food);
-        foodDao.update(id.get(), food);
+        foodDao.update(food);
         return true;
     }
 
@@ -88,27 +88,26 @@ public class FoodResource {
     /**
      * Prevent updated Food from having null fields that appear when some values were unspecified
      *
-     * @param originalFoodId Id of food which fields will fill any null values
-     * @param originalFoodId Id of food which fields will fill any null values
-     * @param newFood        Food with updated or null values that came from a request
+     * @param originalFoodId        Id of food which fields will fill any null values
+     * @param foodUpdatedFieldsOnly Food with updated or null values that came from a request
      * @return Food with null values replaced by original ones
      */
-    private Food fillNullFieldsWithOriginalValues(Long originalFoodId, Food newFood) {
+    private Food fillNullFieldsWithOriginalValues(Long originalFoodId, Food foodUpdatedFieldsOnly) {
         logger.debug("Filling null fields of an updated Food (foodId=" + originalFoodId + ") with original values");
-        logger.trace("Food fields that will be updated: " + newFood);
+        logger.trace("Food fields that will be updated: " + foodUpdatedFieldsOnly);
+
         Food originalFood = foodDao.findById(originalFoodId);
 
-        newFood.setCustomerId(originalFood.getCustomerId());
-
-        if (newFood.getPrice() == null) {
-            newFood.setPrice(originalFood.getPrice());
+        if (foodUpdatedFieldsOnly.getPrice() != null) {
+            originalFood.setPrice(foodUpdatedFieldsOnly.getPrice());
         }
-        if (newFood.getName() == null) {
-            newFood.setName(originalFood.getName());
+        if (foodUpdatedFieldsOnly.getName() != null) {
+            originalFood.setName(foodUpdatedFieldsOnly.getName());
         }
-        if (newFood.getQuantity() == null) {
-            newFood.setQuantity(originalFood.getQuantity());
+        if (foodUpdatedFieldsOnly.getQuantity() != null) {
+            originalFood.setQuantity(foodUpdatedFieldsOnly.getQuantity());
         }
-        return newFood;
+        logger.trace("Food with updated values: " + originalFood);
+        return originalFood;
     }
 }

@@ -5,7 +5,6 @@ import io.dropwizard.jersey.params.LongParam;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
 
 import javax.ws.rs.BadRequestException;
 
@@ -20,9 +19,8 @@ public class CustomerResourceTest {
 
     @Before
     public void setUp() {
-        Logger logger = mock(Logger.class);
         dao = mock(CustomerDao.class);
-        resource = new CustomerResource(dao, logger);
+        resource = new CustomerResource(dao);
     }
 
     @After
@@ -74,7 +72,7 @@ public class CustomerResourceTest {
         when(dao.exists(1)).thenReturn(true);
 
         resource.update(new LongParam("1"), customer);
-        verify(dao, times(1)).update((long) 1, customer);
+        verify(dao, times(1)).update(customer);
     }
 
     @Test

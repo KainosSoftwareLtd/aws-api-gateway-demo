@@ -101,8 +101,10 @@ public class Food {
         if (getId() != null ? !getId().equals(food.getId()) : food.getId() != null) return false;
         if (getCustomerId() != null ? !getCustomerId().equals(food.getCustomerId()) : food.getCustomerId() != null)
             return false;
-        if (!getName().equals(food.getName())) return false;
-        return getQuantity().equals(food.getQuantity()) && getPrice().equals(food.getPrice());
+        if (getName() != null ? !getName().equals(food.getName()) : food.getName() != null) return false;
+        if (getQuantity() != null ? !getQuantity().equals(food.getQuantity()) : food.getQuantity() != null)
+            return false;
+        return getPrice() != null ? getPrice().equals(food.getPrice()) : food.getPrice() == null;
 
     }
 
@@ -110,9 +112,9 @@ public class Food {
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getCustomerId() != null ? getCustomerId().hashCode() : 0);
-        result = 31 * result + getName().hashCode();
-        result = 31 * result + getQuantity().hashCode();
-        result = 31 * result + getPrice().hashCode();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getQuantity() != null ? getQuantity().hashCode() : 0);
+        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
         return result;
     }
 }
