@@ -8,18 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 
-/**
- * Created by adrianz on 21/06/16.
- */
-
 @Entity
 public class Food {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @JsonProperty
     private Long id;
 
-    //TODO: mark as foreign key?
     private Long customerId;
 
     @Length(min = 2)
@@ -41,43 +37,48 @@ public class Food {
         this.price = price;
     }
 
-    public Food() {}
+    public Food() {
+    }
 
     public Long getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Double getQuantity() {
-        return quantity;
-    }
-
-    public Integer getPrice() {
-        return price;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getQuantity() {
+        return quantity;
     }
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
+    public Integer getPrice() {
+        return price;
+    }
+
     public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public Long getCustomerId() { return customerId; }
+    public Long getCustomerId() {
+        return customerId;
+    }
 
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 
     @Override
     public String toString() {
@@ -100,9 +101,10 @@ public class Food {
         if (getId() != null ? !getId().equals(food.getId()) : food.getId() != null) return false;
         if (getCustomerId() != null ? !getCustomerId().equals(food.getCustomerId()) : food.getCustomerId() != null)
             return false;
-        if (!getName().equals(food.getName())) return false;
-        if (!getQuantity().equals(food.getQuantity())) return false;
-        return getPrice().equals(food.getPrice());
+        if (getName() != null ? !getName().equals(food.getName()) : food.getName() != null) return false;
+        if (getQuantity() != null ? !getQuantity().equals(food.getQuantity()) : food.getQuantity() != null)
+            return false;
+        return getPrice() != null ? getPrice().equals(food.getPrice()) : food.getPrice() == null;
 
     }
 
@@ -110,9 +112,9 @@ public class Food {
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getCustomerId() != null ? getCustomerId().hashCode() : 0);
-        result = 31 * result + getName().hashCode();
-        result = 31 * result + getQuantity().hashCode();
-        result = 31 * result + getPrice().hashCode();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getQuantity() != null ? getQuantity().hashCode() : 0);
+        result = 31 * result + (getPrice() != null ? getPrice().hashCode() : 0);
         return result;
     }
 }

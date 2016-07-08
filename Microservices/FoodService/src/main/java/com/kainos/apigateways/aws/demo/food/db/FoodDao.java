@@ -7,9 +7,6 @@ import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-/**
- * Created by adrianz on 21/06/16.
- */
 public class FoodDao extends AbstractDAO<Food> {
     public FoodDao(SessionFactory factory) {
         super(factory);
@@ -34,24 +31,8 @@ public class FoodDao extends AbstractDAO<Food> {
         return (query.uniqueResult() != null);
     }
 
-    public void update(Long id, Food food) {
-
-        Food updatedFood = get(id);
-
-        if (food.getCustomerId() != null) {
-            updatedFood.setCustomerId(food.getCustomerId());
-        }
-        if (food.getPrice() != null) {
-            updatedFood.setPrice(food.getPrice());
-        }
-        if (food.getName() != null) {
-            updatedFood.setName(food.getName());
-        }
-        if (food.getQuantity() != null) {
-            updatedFood.setQuantity(food.getQuantity());
-        }
-
-        currentSession().update(updatedFood);
+    public void update(Food food) {
+        currentSession().update(food);
     }
 
     public List<Food> findForCustomer(Long customerId) {

@@ -7,15 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-/**
- * Created by adrianz on 21/06/16.
- */
-
 @Entity
 public class Customer {
 
     @JsonProperty
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     @Length(min = 2)
@@ -26,18 +23,19 @@ public class Customer {
         this.name = name;
     }
 
-    public Customer() {}
+    public Customer() {
+    }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
@@ -59,9 +57,7 @@ public class Customer {
 
         Customer customer = (Customer) o;
 
-        if (getId() != null ? !getId().equals(customer.getId()) : customer.getId() != null) return false;
-        return getName().equals(customer.getName());
-
+        return getId() != null ? getId().equals(customer.getId()) : customer.getId() == null && getName().equals(customer.getName());
     }
 
     @Override

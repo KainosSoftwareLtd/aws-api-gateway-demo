@@ -9,12 +9,12 @@ database:
   password: ${DWDEMO_PASSWORD}
 
   # the JDBC URL
-  url: ${DWDEMO_DBURL}
+  url: jdbc:postgresql://localhost/microservices-demo
 
   # any properties specific to your JDBC driver:
   properties:
     charSet: UTF-8
-    hibernate.dialect: ${DWDEMO_HIBERDIALECT}
+    hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate.hbm2ddl.auto: create
 
   # the maximum amount of time to wait on an empty pool before throwing an exception
@@ -32,17 +32,14 @@ database:
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
 
-#logging:
-#  level: INFO
-#  loggers:
-#    "io.dropwizard": INFO
-#    "org.hibernate.SQL":
-#      level: DEBUG
-#      additive: false
-#      appenders:
-#        - type: file
-#          currentLogFilename: /var/log/dropwizard/myapplication-sql.log
-#          archivedLogFilenamePattern: /var/log/dropwizard/myapplication-sql-%d.log.gz
-#          archivedFileCount: 5
-#  appenders:
-#    - type: console
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      threshold: ALL
+      target: stdout
+
+  loggers:
+    "io.dropwizard": INFO
+    "org.hibernate.SQL": INFO
+    "com.kainos.apigateways.aws.demo.food.resources.FoodResource": INFO

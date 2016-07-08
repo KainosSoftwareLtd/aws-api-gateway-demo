@@ -5,9 +5,6 @@ import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
-/**
- * Created by adrianz on 21/06/16.
- */
 public class CustomerDao extends AbstractDAO<Customer> {
     public CustomerDao(SessionFactory factory) {
         super(factory);
@@ -32,15 +29,7 @@ public class CustomerDao extends AbstractDAO<Customer> {
         return (query.uniqueResult() != null);
     }
 
-    public void update(Long id, Customer customer) {
-
-        Customer updatedCustomer = get(id);
-
-        if (customer.getName() != null) {
-            updatedCustomer.setName(customer.getName());
-        }
-
-        currentSession().update(updatedCustomer);
+    public void update(Customer customer) {
+        currentSession().update(customer);
     }
-
 }

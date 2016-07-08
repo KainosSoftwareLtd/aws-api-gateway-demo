@@ -6,12 +6,8 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static io.dropwizard.testing.FixtureHelpers.fixture;
-//TODO: use Hamcrest instead of AssertJ?
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by adrianz on 05/07/16.
- */
 public class FoodTest {
 
     private static final ObjectMapper MAPPER = Jackson.newObjectMapper();
@@ -37,5 +33,4 @@ public class FoodTest {
 
         assertThat(deserializedFood).isEqualTo(food);
     }
-
 }

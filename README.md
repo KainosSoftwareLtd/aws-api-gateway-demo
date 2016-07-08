@@ -8,29 +8,36 @@ Environment variables with default values:
 
 	export DWDEMO_USER=username 
     export DWDEMO_PASSWORD=secret
-    export DWDEMO_DBURL=jdbc:postgresql://localhost/microservices-demo
-    export DWDEMO_HIBERDIALECT=org.hibernate.dialect.PostgreSQLDialect
 
-* Provide arguments needed to run a program 
+* Package each microservice (run all commands from repository's root directory)
 
 <!-- this separates the code snippet from the list element above -->
-	
-	server config.yml
+    FOODSVC_PATH="./Microservices/FoodService"
+    mvn -f $FOODSVC_PATH/pom.xml package
 
+    CUSTOMERSVC_PATH="./Microservices/CustomerService"
+    mvn -f $CUSTOMERSVC_PATH/pom.xml package
+
+* Run jars
+
+<!-- this separates the code snippet from the list element above -->
+    java -jar $FOODSVC_PATH/target/food-root-1.0-SNAPSHOT.jar server $FOODSVC_PATH/config.yml
+    java -jar $CUSTOMERSVC_PATH/target/customer-root-1.0-SNAPSHOT.jar server $CUSTOMERSVC_PATH/config.yml 
+    
 ## Food Service
+Default port: 8080
 ### Supported methods
-* POST    localhost:8080/food
-* GET     localhost:8080/food/{id}
-* GET     localhost:8080/food/allForCustomer/{customerId}
-* PUT     localhost:8080/food/{id}
-* DELETE  localhost:8080/food/{id}
+* POST    /food
+* POST    /food/buy/{id}
+* GET     /food/{id}
+* GET     /food/allForCustomer/{customerId}
+* PUT     /food/{id}
+* DELETE  /food/{id}
 
 ## Customer Service
+Default port: 8082
 ### Supported methods
-* POST    localhost:8082/customer
-* GET     localhost:8082/customer/{id}
-* PUT     localhost:8082/customer/{id}
-* DELETE  localhost:8082/customer/{id}
-
-## TODO
-* Add more tests
+* POST    /customer
+* GET     /customer/{id}
+* PUT     /customer/{id}
+* DELETE  /customer/{id}
