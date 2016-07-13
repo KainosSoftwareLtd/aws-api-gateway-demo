@@ -3,3 +3,5 @@ out/
 target/
 .idea/
 .DS_Store
+.tfstate
+.backup

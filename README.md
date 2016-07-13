@@ -14,6 +14,10 @@ You can define which region you want to use, and what images on which region sho
 
 ### EC2
 Two EC2 instances are created one for each microservice. Defined by `food-microservice.tf` and `customer-microservice.tf`.
+Java is upgraded to version 1.8.0 on each instance and .jar files containing respective microservices are provisioned from the local machine.
+
+### RDS
+Microservices connect to a PostgreSQL database created before EC2 instances. 
 
 ### API Gateway
 Currently API Gateway is brought up only to reflect current endpoints in the backend API. 
@@ -22,28 +26,20 @@ in `ApiGateBaseConfig.tf` and resources corresponding to each microservice are d
 
 ## Microservices
 ### Getting started
-* Create an empty PostgreSQL localhost database called "microservices-demo"
-* Add required environment variables.
 
-Environment variables with default values:
+Build microservices with maven using `build.sh`:
+    
+    chmod +x build.sh
+    ./build.sh
 
-	export DWDEMO_USER=username 
-    export DWDEMO_PASSWORD=secret
+Create the AWS infrastructure by running `start.sh`:
 
-* Package each microservice (run all commands from repository's root directory)
+    chmod +x start.sh
+    ./start.sh
+    
+Add `-d` or `--destroy` argument to destroy the infrastructure.
 
-<!-- this separates the code snippet from the list element above -->
-    FOODSVC_PATH="./Microservices/FoodService"
-    mvn -f $FOODSVC_PATH/pom.xml package
-
-    CUSTOMERSVC_PATH="./Microservices/CustomerService"
-    mvn -f $CUSTOMERSVC_PATH/pom.xml package
-
-* Run jars
-
-<!-- this separates the code snippet from the list element above -->
-    java -jar $FOODSVC_PATH/target/food-root-1.0-SNAPSHOT.jar server $FOODSVC_PATH/config.yml
-    java -jar $CUSTOMERSVC_PATH/target/customer-root-1.0-SNAPSHOT.jar server $CUSTOMERSVC_PATH/config.yml 
+    ./start.sh --destroy
     
 ## Food Service
 Default port: 8080

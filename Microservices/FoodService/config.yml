@@ -9,7 +9,7 @@ database:
   password: ${DWDEMO_PASSWORD}
 
   # the JDBC URL
-  url: jdbc:postgresql://localhost/microservices-demo
+  url: ${DWDEMO_DB}
 
   # any properties specific to your JDBC driver:
   properties:
