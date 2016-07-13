@@ -1,5 +1,7 @@
 variable "FOODSVC_PATH" {}
 variable "CUSTOMERSVC_PATH" {}
+variable "DB_USERNAME" {}
+variable "DB_PASSWORD" {}
 
 variable "FOOD_JAR" {
 	default = "food-root-1.0-SNAPSHOT.jar"

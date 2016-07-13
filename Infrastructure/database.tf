@@ -5,8 +5,8 @@ resource "aws_db_instance" "default" {
 	engine_version       = "9.5.2"
 	instance_class       = "db.t2.micro"
 	name                 = "microservices"
-	username             = "msvc_admin"
-	password             = "12341234"
+	username             = "${var.DB_USERNAME}"
+	password             = "${var.DB_PASSWORD}"
 	vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
 
 	tags {

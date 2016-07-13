@@ -24,8 +24,8 @@ resource "aws_instance" "food_msvc" {
 		inline = [
 		"sudo yum install -y java-1.8.0",
 		"sudo yum remove -y java-1.7.0-openjdk",
-		"echo 'export DWDEMO_USER=msvc_admin' >> ~/.bashrc",
-		"echo 'export DWDEMO_PASSWORD=12341234' >> ~/.bashrc",
+		"echo 'export DWDEMO_USER=${var.DB_USERNAME}' >> ~/.bashrc",
+		"echo 'export DWDEMO_PASSWORD=${var.DB_PASSWORD}' >> ~/.bashrc",
 		"echo 'export DWDEMO_DB=jdbc:postgresql://${aws_db_instance.default.endpoint}/microservices' >> ~/.bashrc",
 		"source ~/.bashrc",
 		# TODO: use an agent to run this .jar  

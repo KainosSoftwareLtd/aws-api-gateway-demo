@@ -32,6 +32,13 @@ Build microservices with maven using `build.sh`:
     chmod +x build.sh
     ./build.sh
 
+(Optional) Set the environment variables containing a username and password of your choice. 
+If you skip this step, terraform will prompt you for username and password.
+Username "admin" is reserved by AWS.
+
+    export TF_VAR_DB_USERNAME=user
+    export TF_VAR_DB_PASSWORD=pass
+
 Create the AWS infrastructure by running `start.sh`:
 
     chmod +x start.sh
