@@ -15,9 +15,11 @@ You can define which region you want to use, and what images on which region sho
 ### EC2
 Two EC2 instances are created one for each microservice. Defined by `food-microservice.tf` and `customer-microservice.tf`.
 Java is upgraded to version 1.8.0 on each instance and .jar files containing respective microservices are provisioned from the local machine.
+`RunMicroservice.sh` is provisioned and launched as a cron job on the EC2 instance to ensure that the microservice is running.
+Microservice's output is written to `~/microservice.log`.
 
 ### RDS
-Microservices connect to a PostgreSQL database created before EC2 instances. 
+Microservices connect to a PostgreSQL database created before the EC2 instances.
 
 ### API Gateway
 Currently API Gateway is brought up only to reflect current endpoints in the backend API. 

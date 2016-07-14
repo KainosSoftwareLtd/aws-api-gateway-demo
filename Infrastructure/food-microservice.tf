@@ -20,16 +20,30 @@ resource "aws_instance" "food_msvc" {
 		}
 	}
 
+	provisioner "file" {
+		source = "./Infrastructure/RunMicroservice.sh"
+		destination = "~/RunMicroservice.sh"
+		connection {
+			user = "ec2-user"
+		}
+	}
+
 	provisioner "remote-exec" {
 		inline = [
+		# Upgrade java
 		"sudo yum install -y java-1.8.0",
 		"sudo yum remove -y java-1.7.0-openjdk",
+
+		# Export environment variables
 		"echo 'export DWDEMO_USER=${var.DB_USERNAME}' >> ~/.bashrc",
 		"echo 'export DWDEMO_PASSWORD=${var.DB_PASSWORD}' >> ~/.bashrc",
 		"echo 'export DWDEMO_DB=jdbc:postgresql://${aws_db_instance.default.endpoint}/microservices' >> ~/.bashrc",
 		"source ~/.bashrc",
-		# TODO: use an agent to run this .jar  
-		"java -jar ~/food-root-1.0-SNAPSHOT.jar server ~/config.yml"
+
+		"chmod +x ~/RunMicroservice.sh",
+
+		# Start Microservice if it's not running.
+		"(crontab -l 2>/dev/null; echo '*/2 * * * * ~/RunMicroservice.sh ~/${var.FOOD_JAR} >> microservice.log 2>&1') | crontab -"
 		]
 		connection {
 			user = "ec2-user"
