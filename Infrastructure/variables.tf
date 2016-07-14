@@ -6,6 +6,9 @@ variable "DB_PASSWORD" {}
 variable "FOOD_JAR" {
 	default = "food-root-1.0-SNAPSHOT.jar"
 }
+variable "CUSTOMER_JAR" {
+	default = "customer-root-1.0-SNAPSHOT.jar"
+}
 
 variable "region" {
 	default = "eu-west-1"

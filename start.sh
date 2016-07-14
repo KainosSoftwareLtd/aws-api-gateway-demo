@@ -5,7 +5,7 @@ case "$1" in
     -d|--destroy)
 	echo "Destroying existing resources."
 	terraform destroy -state=./Infrastructure/terraform.tfstate ./Infrastructure
-	exit 1
+	exit 0
     ;;
 esac
 
