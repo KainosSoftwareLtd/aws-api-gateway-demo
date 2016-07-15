@@ -56,6 +56,9 @@ resource "aws_instance" "customer_msvc" {
 	}
 }
 
-resource "aws_eip" "ip_customer_msvc" {
+resource "aws_eip" "customer_msvc" {
 	instance = "${aws_instance.customer_msvc.id}"
+}
+output "ip_customer_msvc" {
+	value = "${aws_eip.customer_msvc.public_ip}"
 }

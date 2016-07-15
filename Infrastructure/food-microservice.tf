@@ -56,6 +56,9 @@ resource "aws_instance" "food_msvc" {
 	}
 }
 
-resource "aws_eip" "ip_food_msvc" {
+resource "aws_eip" "food_msvc" {
 	instance = "${aws_instance.food_msvc.id}"
+}
+output "ip_food_msvc" {
+	value = "${aws_eip.food_msvc.public_ip}"
 }
