@@ -18,14 +18,17 @@ If you skip this step, terraform will prompt you for username and password. User
     export TF_VAR_DB_USERNAME=user
     export TF_VAR_DB_PASSWORD=pass
 
+(Skip this step if you already have the `microservices.pem` file in the ~/.ssh/ directory)
+To generate a key pair go to the AWS EC2 console > NETWORK & SECURITY > Key Pairs [(link for the eu-west-1 region)](https://eu-west-1.console.aws.amazon.com/ec2/v2/home?region=eu-west-1#KeyPairs:sort=keyName)
+and create a Key Pair named "microservices". Put the `microservices.pem` in the ~/.ssh/ directory. Then modify the permissions and add the key to the authentication agent.
+
+    chmod 600 ~/.ssh/microservices.pem
+    ssh-add -K ~/.ssh/microservices.pem
+
 Create the AWS infrastructure by running `TerraformInfrastructure.sh`:
 
     chmod +x TerraformInfrastructure.sh
     ./TerraformInfrastructure.sh
-    
-(Skip this step if you already have the `microservices.pem` file in the ~/.ssh/ directory)
-To generate a key pair go to AWS EC2 console > NETWORK & SECURITY > Key Pairs ([link for the eu-west-1 region)](https://eu-west-1.console.aws.amazon.com/ec2/v2/home?region=eu-west-1#KeyPairs:sort=keyName)
-and create a Key Pair named "microservices". Put the `microservices.pem` in the ~/.ssh/ directory.
  
 Connect with the instances via SSH.
 
