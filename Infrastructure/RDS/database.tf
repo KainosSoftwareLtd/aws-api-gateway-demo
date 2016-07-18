@@ -8,7 +8,6 @@ resource "aws_db_instance" "microservices" {
 	username             	= "${var.DB_USERNAME}"
 	password             	= "${var.DB_PASSWORD}"
 	vpc_security_group_ids 	= ["${var.security_group_id}"]
-//	db_subnet_group_name = "${aws_db_subnet_group.microservices.name}"
 
 	tags {
 		Name = "msvc_database"
