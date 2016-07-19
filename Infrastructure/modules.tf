@@ -1,13 +1,8 @@
-module "ApiGateway" {
-  source = "./ApiGateway"
-}
-
 module "RDS" {
   DB_PASSWORD = "${var.DB_PASSWORD}"
   DB_USERNAME = "${var.DB_USERNAME}"
   source = "./RDS"
   security_group_id = "${aws_security_group.allow_all.id}"
-  region = "${var.region}"
 }
 
 module "FOOD_EC2" {
@@ -38,4 +33,10 @@ module "CUSTOMER_EC2" {
 }
 output "ip_customer_msvc" {
   value = "${module.CUSTOMER_EC2.ip_msvc}"
+}
+
+module "ApiGateway" {
+  source = "./ApiGateway"
+  CUST_MS_PUB_IP = "${module.CUSTOMER_EC2.ip_msvc}"
+  FOOD_MS_PUB_IP = "${module.FOOD_EC2.ip_msvc}"
 }

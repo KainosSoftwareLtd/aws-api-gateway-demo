@@ -13,63 +13,49 @@ resource "aws_api_gateway_resource" "FoodIdResource" {
 }
 
 # GET /api/food/{id}
-resource "aws_api_gateway_method" "FoodGetByIdMethod" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodIdResource.id}"
-  http_method = "GET"
-  authorization = "NONE"
-}
+module "FoodGetByIdMethod" {
+  source = "./BasicHttpMethod"
 
-resource "aws_api_gateway_integration" "FoodGetByIdIntegration" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodIdResource.id}"
-  http_method = "${aws_api_gateway_method.FoodGetByIdMethod.http_method}"
-  type = "MOCK"
+  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
+  HTTP_METHOD = "GET"
+  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/{id}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
 
 # PUT /api/food/{id}
-resource "aws_api_gateway_method" "FoodPutByIdMethod" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodIdResource.id}"
-  http_method = "PUT"
-  authorization = "NONE"
-}
+module "FoodPutByIdMethod" {
+  source = "./BasicHttpMethod"
 
-resource "aws_api_gateway_integration" "FoodPutByIdIntegration" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodIdResource.id}"
-  http_method = "${aws_api_gateway_method.FoodPutByIdMethod.http_method}"
-  type = "MOCK"
+  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
+  HTTP_METHOD = "PUT"
+  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/{id}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
 
 # DELETE /api/food/{id}
-resource "aws_api_gateway_method" "FoodDeleteByIdMethod" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodIdResource.id}"
-  http_method = "DELETE"
-  authorization = "NONE"
-}
+module "FoodDeleteByIdMethod" {
+  source = "./BasicHttpMethod"
 
-resource "aws_api_gateway_integration" "FoodDeleteByIdIntegration" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodIdResource.id}"
-  http_method = "${aws_api_gateway_method.FoodDeleteByIdMethod.http_method}"
-  type = "MOCK"
+  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
+  HTTP_METHOD = "DELETE"
+  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/{id}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
 
 # POST /api/food
-resource "aws_api_gateway_method" "FoodCreateMethod" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodResource.id}"
-  http_method = "POST"
-  authorization = "NONE"
-}
+module "FoodCreateMethod" {
+  source = "./BasicHttpMethod"
 
-resource "aws_api_gateway_integration" "FoodCreateIntegration" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodResource.id}"
-  http_method = "${aws_api_gateway_method.FoodCreateMethod.http_method}"
-  type = "MOCK"
+  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID = "${aws_api_gateway_resource.FoodResource.id}"
+  HTTP_METHOD = "POST"
+  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food"
 }
 
 # /api/food/allForCustomer
@@ -79,19 +65,23 @@ resource "aws_api_gateway_resource" "FoodAllForCustomerResource" {
   path_part = "allForCustomer"
 }
 
-# GET /api/food/allForCustomer
-resource "aws_api_gateway_method" "FoodGetAllForCustomerMethod" {
+# /api/food/allForCustomer/{id}
+resource "aws_api_gateway_resource" "FoodAllForCustomerByIdResource" {
   rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodAllForCustomerResource.id}"
-  http_method = "GET"
-  authorization = "NONE"
+  parent_id = "${aws_api_gateway_resource.FoodAllForCustomerResource.id}"
+  path_part = "{id}"
 }
 
-resource "aws_api_gateway_integration" "FoodGetAllForCustomerIntegration" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodAllForCustomerResource.id}"
-  http_method = "${aws_api_gateway_method.FoodGetAllForCustomerMethod.http_method}"
-  type = "MOCK"
+# GET /api/food/allForCustomer
+module "FoodGetAllForCustomerByIdMethod" {
+  source = "./BasicHttpMethod"
+
+  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID = "${aws_api_gateway_resource.FoodAllForCustomerByIdResource.id}"
+  HTTP_METHOD = "GET"
+  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/allForCustomer/{id}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
 
 # /api/food/buy
@@ -109,16 +99,13 @@ resource "aws_api_gateway_resource" "FoodBuyIdResource" {
 }
 
 # POST /api/food/buy/{id}
-resource "aws_api_gateway_method" "FoodPostBuyIdMethod" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodBuyIdResource.id}"
-  http_method = "POST"
-  authorization = "NONE"
-}
+module "FoodPostBuyIdMethod" {
+  source = "./BasicHttpMethod"
 
-resource "aws_api_gateway_integration" "FoodPostBuyIdIntegration" {
-  rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  resource_id = "${aws_api_gateway_resource.FoodBuyIdResource.id}"
-  http_method = "${aws_api_gateway_method.FoodPostBuyIdMethod.http_method}"
-  type = "MOCK"
+  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID = "${aws_api_gateway_resource.FoodBuyIdResource.id}"
+  HTTP_METHOD = "POST"
+  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/buy/{id}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
