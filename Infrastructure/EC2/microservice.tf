@@ -3,7 +3,9 @@ resource "aws_instance" "microservice" {
 	instance_type = "t2.micro"
 	key_name = "microservices"
 	vpc_security_group_ids = ["${var.security_group_id}"]
+    subnet_id = "${var.subnet_id}"
 
+    # Microservice .jar file
 	provisioner "file" {
 		source = "${var.MSVC_PATH}/target/${var.JAR_FILE}"
 		destination = "~/${var.JAR_FILE}"
@@ -12,6 +14,7 @@ resource "aws_instance" "microservice" {
 		}
 	}
 
+    # Config used by the microservice
 	provisioner "file" {
 		source = "${var.MSVC_PATH}/config.yml"
 		destination = "~/config.yml"
@@ -28,7 +31,7 @@ resource "aws_instance" "microservice" {
 		}
 	}
 
-	provisioner "remote-exec" {
+provisioner "remote-exec" {
 		inline = [
 		# Upgrade java
 		"sudo yum install -y java-1.8.0",
@@ -58,7 +61,9 @@ resource "aws_instance" "microservice" {
 
 resource "aws_eip" "MSVC_IP" {
 	instance = "${aws_instance.microservice.id}"
+    vpc = true
 }
+
 output "ip_msvc" {
 	value = "${aws_eip.MSVC_IP.public_ip}"
 }
