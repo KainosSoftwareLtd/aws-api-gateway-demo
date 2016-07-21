@@ -7,7 +7,6 @@ variable "security_group_id" {}
 variable "db_endpoint" {}
 variable "region" {}
 variable "subnet_id" {}
-variable "internet_gateway_id" {} # do not remove - used to create a dependency
 
 variable "amis" {
   default = {
