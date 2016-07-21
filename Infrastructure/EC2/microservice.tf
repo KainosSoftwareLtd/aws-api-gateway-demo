@@ -1,48 +1,48 @@
 resource "aws_instance" "microservice" {
-	ami = "${lookup(var.amis, var.region)}"
-	instance_type = "t2.micro"
-	key_name = "microservices"
-	vpc_security_group_ids = ["${var.security_group_id}"]
-    subnet_id = "${var.subnet_id}"
+  ami                    = "${lookup(var.amis, var.region)}"
+  instance_type          = "t2.micro"
+  key_name               = "microservices"
+  vpc_security_group_ids = ["${var.security_group_id}"]
+  subnet_id              = "${var.subnet_id}"
 
-	tags {
-		Name = "${var.MSVC_NAME}_msvc_instance"
-		Group = "api_gate_demo"
-	}
+  tags {
+    Name  = "${var.MSVC_NAME}_msvc_instance"
+    Group = "api_gate_demo"
+  }
 }
 
 resource "aws_eip" "MSVC_IP" {
-	instance = "${aws_instance.microservice.id}"
-    vpc = true
+  instance = "${aws_instance.microservice.id}"
+  vpc      = true
 
-      # Microservice .jar file
-  	provisioner "file" {
-  		source = "${var.MSVC_PATH}/target/${var.JAR_FILE}"
-  		destination = "~/${var.JAR_FILE}"
-  		connection {
-  			user = "ec2-user"
-            host = "${self.public_ip}"
-  		}
-  	}
+  # Microservice .jar file
+  provisioner "file" {
+    source      = "${var.MSVC_PATH}/target/${var.JAR_FILE}"
+    destination = "~/${var.JAR_FILE}"
+    connection {
+      user = "ec2-user"
+      host = "${self.public_ip}"
+    }
+  }
 
-      # Config used by the microservice
-  	provisioner "file" {
-  		source = "${var.MSVC_PATH}/config.yml"
-  		destination = "~/config.yml"
-  		connection {
-  			user = "ec2-user"
-            host = "${self.public_ip}"
-  		}
-  	}
+  # Config used by the microservice
+  provisioner "file" {
+    source      = "${var.MSVC_PATH}/config.yml"
+    destination = "~/config.yml"
+    connection {
+      user = "ec2-user"
+      host = "${self.public_ip}"
+    }
+  }
 
-  	provisioner "file" {
-  		source = "./Infrastructure/RunMicroservice.sh"
-  		destination = "~/RunMicroservice.sh"
-  		connection {
-  			user = "ec2-user"
-            host = "${self.public_ip}"
-  		}
-  	}
+  provisioner "file" {
+    source      = "./Infrastructure/RunMicroservice.sh"
+    destination = "~/RunMicroservice.sh"
+    connection {
+      user = "ec2-user"
+      host = "${self.public_ip}"
+    }
+  }
 
   provisioner "remote-exec" {
     inline = [
@@ -69,5 +69,5 @@ resource "aws_eip" "MSVC_IP" {
 }
 
 output "ip_msvc" {
-	value = "${aws_eip.MSVC_IP.public_ip}"
+  value = "${aws_eip.MSVC_IP.public_ip}"
 }
