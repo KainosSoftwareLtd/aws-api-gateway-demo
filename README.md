@@ -1,7 +1,7 @@
 # AWS API Gateway Demo - WIP
 
 ## Infrastructure
-The AWS infrastructure is being built with [Terraform](https://www.terraform.io/). 
+The AWS infrastructure is being built with [Terraform](https://www.terraform.io/) 0.7.0-rc3.
 All Terraform configs are located in the `Infrastructure` directory. Currently config brings up a security group, 
 EC2 instances and a mock API Gateway definition.
 ### Bringing up the environment

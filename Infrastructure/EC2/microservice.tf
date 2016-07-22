@@ -2,7 +2,7 @@ resource "aws_instance" "microservice" {
   ami                    = "${lookup(var.amis, var.region)}"
   instance_type          = "t2.micro"
   key_name               = "microservices"
-  vpc_security_group_ids = ["${var.security_group_id}"]
+  vpc_security_group_ids = ["${var.security_group_ids}"]
   subnet_id              = "${var.subnet_id}"
 
   tags {
@@ -59,8 +59,7 @@ resource "aws_eip" "MSVC_IP" {
       "chmod +x ~/RunMicroservice.sh",
 
       # Start Microservice if it's not running.
-      "(crontab -l 2>/dev/null; echo '*/2 * * * * ~/RunMicroservice.sh ~/${var.JAR_FILE} >> microservice.log 2>&1') | crontab -"
-    ]
+      "(crontab -l 2>/dev/null; echo '*/2 * * * * ~/RunMicroservice.sh ~/${var.JAR_FILE} >> microservice.log 2>&1') | crontab -"]
     connection {
       user = "ec2-user"
       host = "${self.public_ip}"
