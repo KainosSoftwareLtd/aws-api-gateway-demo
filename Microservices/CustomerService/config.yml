@@ -1,11 +1,11 @@
 server:
   applicationConnectors:
     - type: http
-      port: 8082
+      port: ${CUST_SVC_APP_PORT:-8082}
 
   adminConnectors:
     - type: http
-      port: 8083
+      port: ${CUST_SVC_ADMIN_PORT:-8083}
 
 database:
   # the name of your JDBC driver

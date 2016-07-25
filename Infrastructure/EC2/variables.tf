@@ -6,6 +6,9 @@ variable "DB_PASSWORD" {}
 variable "security_group_id" {}
 variable "db_endpoint" {}
 variable "region" {}
+variable "APP_PORT" {}
+variable "ADMIN_PORT" {}
+variable "SVC_VAR_NAME" {}
 
 variable "amis" {
   default = {
