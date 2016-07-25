@@ -53,6 +53,8 @@ resource "aws_eip" "MSVC_IP" {
       # Export environment variables
       "echo 'export DWDEMO_USER=${var.DB_USERNAME}' >> ~/.bashrc",
       "echo 'export DWDEMO_PASSWORD=${var.DB_PASSWORD}' >> ~/.bashrc",
+      "echo 'export ${SVC_VAR_NAME}_APP_PORT=${var.APP_PORT}' >> ~/.bashrc",
+      "echo 'export ${SVC_VAR_NAME}_ADMIN_PORT=${var.ADMIN_PORT}' >> ~/.bashrc",
       "echo 'export DWDEMO_DB=jdbc:postgresql://${var.db_endpoint}/microservices' >> ~/.bashrc",
       "source ~/.bashrc",
 

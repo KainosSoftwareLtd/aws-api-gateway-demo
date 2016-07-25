@@ -8,3 +8,7 @@ resource "aws_api_gateway_resource" "RootResource" {
   parent_id = "${aws_api_gateway_rest_api.APIDemo.root_resource_id}"
   path_part = "api"
 }
+
+output "api_id" {
+	value = "${aws_api_gateway_rest_api.APIDemo.id}"
+}
