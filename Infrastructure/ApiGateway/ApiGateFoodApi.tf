@@ -20,8 +20,8 @@ module "FoodGetByIdMethod" {
   RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
   HTTP_METHOD = "GET"
   URI = "${var.FOOD_MS_BASE_URL}/food/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
-  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # PUT /api/food/{id}
@@ -32,8 +32,8 @@ module "FoodPutByIdMethod" {
   RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
   HTTP_METHOD = "PUT"
   URI = "${var.FOOD_MS_BASE_URL}/food/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
-  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # DELETE /api/food/{id}
@@ -44,8 +44,8 @@ module "FoodDeleteByIdMethod" {
   RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
   HTTP_METHOD = "DELETE"
   URI = "${var.FOOD_MS_BASE_URL}/food/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
-  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # POST /api/food
@@ -80,8 +80,8 @@ module "FoodGetAllForCustomerByIdMethod" {
   RESOURCE_ID = "${aws_api_gateway_resource.FoodAllForCustomerByIdResource.id}"
   HTTP_METHOD = "GET"
   URI = "${var.FOOD_MS_BASE_URL}/food/allForCustomer/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
-  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # /api/food/buy
@@ -106,6 +106,6 @@ module "FoodPostBuyIdMethod" {
   RESOURCE_ID = "${aws_api_gateway_resource.FoodBuyIdResource.id}"
   HTTP_METHOD = "POST"
   URI = "${var.FOOD_MS_BASE_URL}/food/buy/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
-  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }

@@ -20,8 +20,8 @@ module "CustomerGetByIdMethod" {
   RESOURCE_ID = "${aws_api_gateway_resource.CustomerIdResource.id}"
   HTTP_METHOD = "GET"
   URI = "${var.CUST_MS_BASE_URL}/customer/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
-  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # PUT /api/customer/{id}
@@ -32,8 +32,8 @@ module "CustomerPutByIdMethod" {
   RESOURCE_ID = "${aws_api_gateway_resource.CustomerIdResource.id}"
   HTTP_METHOD = "PUT"
   URI = "${var.CUST_MS_BASE_URL}/customer/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
-  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # DELETE /api/customer/{id}
@@ -44,8 +44,8 @@ module "CustomerDeleteByIdMethod" {
   RESOURCE_ID = "${aws_api_gateway_resource.CustomerIdResource.id}"
   HTTP_METHOD = "DELETE"
   URI = "${var.CUST_MS_BASE_URL}/customer/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
-  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
+  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # POST /api/customer
