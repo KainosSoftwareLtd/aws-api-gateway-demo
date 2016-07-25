@@ -1,5 +1,5 @@
-variable "CUST_MS_PUB_IP" {}
-variable "FOOD_MS_PUB_IP" {}
+variable "CUST_MS_BASE_URL" {}
+variable "FOOD_MS_BASE_URL" {}
 
 variable "PATH_ID_PARAM" {
 	default = {

@@ -19,8 +19,7 @@ module "CustomerGetByIdMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.CustomerIdResource.id}"
   HTTP_METHOD = "GET"
-  # TODO: parametrize ports, maybe pull path from parameters? Or maybe swagger to param mapping here? :> Would be awesome imo.
-  URI = "http://${var.CUST_MS_PUB_IP}:8082/customer/{id}"
+  URI = "${var.CUST_MS_BASE_URL}/customer/{id}"
   REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
@@ -32,7 +31,7 @@ module "CustomerPutByIdMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.CustomerIdResource.id}"
   HTTP_METHOD = "PUT"
-  URI = "http://${var.CUST_MS_PUB_IP}:8082/customer/{id}"
+  URI = "${var.CUST_MS_BASE_URL}/customer/{id}"
   REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
@@ -44,7 +43,7 @@ module "CustomerDeleteByIdMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.CustomerIdResource.id}"
   HTTP_METHOD = "DELETE"
-  URI = "http://${var.CUST_MS_PUB_IP}:8082/customer/{id}"
+  URI = "${var.CUST_MS_BASE_URL}/customer/{id}"
   REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
@@ -56,5 +55,5 @@ module "CustomerCreateMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.CustomerResource.id}"
   HTTP_METHOD = "POST"
-  URI = "http://${var.CUST_MS_PUB_IP}:8082/customer"
+  URI = "${var.CUST_MS_BASE_URL}/customer"
 }

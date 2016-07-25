@@ -19,7 +19,7 @@ module "FoodGetByIdMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
   HTTP_METHOD = "GET"
-  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/{id}"
+  URI = "${var.FOOD_MS_BASE_URL}/food/{id}"
   REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
@@ -31,7 +31,7 @@ module "FoodPutByIdMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
   HTTP_METHOD = "PUT"
-  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/{id}"
+  URI = "${var.FOOD_MS_BASE_URL}/food/{id}"
   REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
@@ -43,7 +43,7 @@ module "FoodDeleteByIdMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
   HTTP_METHOD = "DELETE"
-  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/{id}"
+  URI = "${var.FOOD_MS_BASE_URL}/food/{id}"
   REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
@@ -55,7 +55,7 @@ module "FoodCreateMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.FoodResource.id}"
   HTTP_METHOD = "POST"
-  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food"
+  URI = "${var.FOOD_MS_BASE_URL}/food"
 }
 
 # /api/food/allForCustomer
@@ -79,7 +79,7 @@ module "FoodGetAllForCustomerByIdMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.FoodAllForCustomerByIdResource.id}"
   HTTP_METHOD = "GET"
-  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/allForCustomer/{id}"
+  URI = "${var.FOOD_MS_BASE_URL}/food/allForCustomer/{id}"
   REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }
@@ -105,7 +105,7 @@ module "FoodPostBuyIdMethod" {
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.FoodBuyIdResource.id}"
   HTTP_METHOD = "POST"
-  URI = "http://${var.FOOD_MS_PUB_IP}:8080/food/buy/{id}"
+  URI = "${var.FOOD_MS_BASE_URL}/food/buy/{id}"
   REQUEST_PARAMS = "${var.PATH_ID_PARAM.REQUIRED}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
 }

@@ -50,16 +50,18 @@ Microservices connect to a PostgreSQL database created before the EC2 instances.
 
 ### API Gateway
 Currently API Gateway is brought up only to reflect current endpoints in the backend API. 
-It is not integrated with the microservices yet though - that is work in progress. The API Gateway base path is defined 
+At this moment it is used to pass the input into the corresponding endpoint without modifying any data and responding with 200 response which contains
+either data from succesfull ednpoint execution or error code and message when the backend API fails. Base config is located
 in `ApiGateBaseConfig.tf` and resources corresponding to each microservice are defined in `ApiGateFoodApi.tf` and `ApiGateCustomerApi.tf`.
+After the API is defined by the above, it needs to be deployed. This is done in `ApiGateDeployment.tf` file. 
+All variables required by this module are defined in `variables.tf`. 
+
+#### BasicHttpMethod submodule
+TODO
+
 
 ## Microservices
 ### Getting started
-
-Export microservices' directories for shell scripts to use. 
-
-    export FOODSVC_PATH="./Microservices/FoodService"
-    export CUSTOMERSVC_PATH="./Microservices/CustomerService"
 
 Build the microservices with maven using `build.sh`:
     
@@ -71,6 +73,13 @@ Provide the required environment variables.
     export DWDEMO_USER=dbuser
     export DWDEMO_PASSWORD=dbpass
     export DWDEMO_DB=jdbc:postgresql://localhost/microservices
+
+Optionally you can provide env variables to change the ports on which the services are run.
+
+    export FOOD_SVC_APP_PORT=8080
+    export FOOD_SVC_ADMIN_PORT=8081
+    export CUST_SVC_APP_PORT=8082
+    export CUST_SVC_ADMIN_PORT=8083
     
 Run the microservices locally. Point the `RunMicroservice.sh` script to the .jar files built by maven.
 

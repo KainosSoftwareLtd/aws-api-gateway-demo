@@ -33,3 +33,8 @@ resource "aws_api_gateway_integration_response" "IntegrationResponse" {
   status_code = "200"
   depends_on = ["aws_api_gateway_method_response.200Response"]
 }
+
+# Used to detect that the method is fully created
+output "integration_resp_id" {
+  value = "${aws_api_gateway_integration_response.IntegrationResponse.id}"
+}
