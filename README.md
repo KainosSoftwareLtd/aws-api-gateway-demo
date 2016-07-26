@@ -19,11 +19,18 @@ If you skip this step, terraform will prompt you for username and password. User
     export TF_VAR_DB_PASSWORD=pass
 
 (Skip this step if you already have the `microservices.pem` file in the ~/.ssh/ directory)
-To generate a key pair go to the AWS EC2 console > NETWORK & SECURITY > Key Pairs [(link for the eu-west-1 region)](https://eu-west-1.console.aws.amazon.com/ec2/v2/home?region=eu-west-1#KeyPairs:sort=keyName)
+To generate a key pair go to the AWS EC2 console > NETWORK & SECURITY > [Key Pairs](https://console.aws.amazon.com/ec2/v2/home)
 and create a Key Pair named "microservices". Put the `microservices.pem` in the ~/.ssh/ directory. Then modify the permissions and add the key to the authentication agent.
 
     chmod 600 ~/.ssh/microservices.pem
     ssh-add -K ~/.ssh/microservices.pem
+    
+Generate a client certificate for the API Gateway to use when communicating with the microservices. 
+Go to [Client Certificates](https://console.aws.amazon.com/apigateway/home#/client-certificates) and click the "Generate" button.
+The last segment of the current URL in your web browser should now be the alphanumeric ID of your certificate. 
+The same ID should also be visible in the certificates list just under the "Generate" button. Set this ID as an environment variable.
+
+    export TF_VAR_GATEWAY_CERT_ID=xxxxxx
 
 Create the AWS infrastructure by running `TerraformInfrastructure.sh`:
 

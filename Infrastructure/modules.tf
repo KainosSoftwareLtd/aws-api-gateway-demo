@@ -62,4 +62,5 @@ module "ApiGateway" {
   source           = "./ApiGateway"
   CUST_MS_BASE_URL = "http://${module.CUSTOMER_EC2.ip_msvc}:${var.CUST_SVC_APP_PORT}"
   FOOD_MS_BASE_URL = "http://${module.FOOD_EC2.ip_msvc}:${var.FOOD_SVC_APP_PORT}"
+  GATEWAY_CERT_ID = "${var.GATEWAY_CERT_ID}"
 }

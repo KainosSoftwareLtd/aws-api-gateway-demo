@@ -1,7 +1,8 @@
 export TF_VAR_FOODSVC_PATH="./Microservices/FoodService"
 export TF_VAR_CUSTOMERSVC_PATH="./Microservices/CustomerService"
 
-terraform get ./Infrastructure
+# -update will not delay this command too much as long as our modules are not accessed remotely
+terraform get -update ./Infrastructure
 
 case "$1" in
     -d|--destroy)
