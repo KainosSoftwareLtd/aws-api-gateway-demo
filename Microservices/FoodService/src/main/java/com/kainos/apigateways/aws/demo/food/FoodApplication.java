@@ -38,7 +38,6 @@ public class FoodApplication extends Application<AppConfiguration> {
                         new EnvironmentVariableSubstitutor(false)
                 )
         );
-
     }
 
     @Override

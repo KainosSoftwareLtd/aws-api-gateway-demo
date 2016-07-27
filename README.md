@@ -1,14 +1,18 @@
 # AWS API Gateway Demo - WIP
 
 ## Infrastructure
-The AWS infrastructure is being built with [Terraform](https://www.terraform.io/). 
+The AWS infrastructure is being built with [Terraform](https://www.terraform.io/) 0.7.0-rc3.
 All Terraform configs are located in the `Infrastructure` directory. Currently config brings up a security group, 
 EC2 instances and a mock API Gateway definition.
 ### Bringing up the environment
 To bring up the environment you need to have Terraform installed, and AWS access/secret keys defined in 
 `~/.aws/credentials` [file](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html). 
 
-You can define which region you want to use, and what images on which region should be deployed in the `variables.tf` file.
+You can define which region you want to use, and what images on which region should be deployed by setting the environment variable.
+Set the AWS CLI default region to the same value.
+
+    export TF_VAR_AWS_REGION=eu-central-1
+    export AWS_DEFAULT_REGION=$TF_VAR_AWS_REGION
 
 Build the microservices as described in the first two steps of the [Getting started](#getting-started) section.
 
@@ -19,13 +23,15 @@ If you skip this step, terraform will prompt you for username and password. User
     export TF_VAR_DB_PASSWORD=pass
 
 (Skip this step if you already have the `microservices.pem` file in the ~/.ssh/ directory)
-To generate a key pair go to the AWS EC2 console > NETWORK & SECURITY > Key Pairs [(link for the eu-west-1 region)](https://eu-west-1.console.aws.amazon.com/ec2/v2/home?region=eu-west-1#KeyPairs:sort=keyName)
+To generate a key pair go to the AWS EC2 console > NETWORK & SECURITY > [Key Pairs](https://console.aws.amazon.com/ec2/v2/home)
 and create a Key Pair named "microservices". Put the `microservices.pem` in the ~/.ssh/ directory. Then modify the permissions and add the key to the authentication agent.
 
     chmod 600 ~/.ssh/microservices.pem
     ssh-add -K ~/.ssh/microservices.pem
-
+    
 Create the AWS infrastructure by running `TerraformInfrastructure.sh`:
+This script will also generate a client certificate for the API Gateway to use when communicating with the microservices and save its ID to a .tfvars file.
+If a certificate ID is already defined in `./Infrastructure/ApiGateway/terraform.tfvars` the generation will be omitted.
 
     chmod +x TerraformInfrastructure.sh
     ./TerraformInfrastructure.sh

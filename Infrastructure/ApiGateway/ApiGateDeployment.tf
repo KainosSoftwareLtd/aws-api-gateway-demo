@@ -21,17 +21,28 @@ resource "null_resource" "ApiReady" {
 resource "aws_cloudformation_stack" "ApiGatewayDemoDeployment" {
   name = "ApiGatewayDemoDeployment"
   depends_on = ["null_resource.ApiReady"]
-  template_body = <<STACK
-{
-  "Resources": {
-    "AlphaDeploy": {
-      "Type": "AWS::ApiGateway::Deployment",
-      "Properties": {
-        "RestApiId": "${aws_api_gateway_rest_api.APIDemo.id}",
-        "StageName": "alpha"
+  template_body =
+  <<STACK
+    {
+      "Resources": {
+        "AlphaDeploy": {
+          "Type": "AWS::ApiGateway::Deployment",
+          "Properties": {
+            "RestApiId": "${aws_api_gateway_rest_api.APIDemo.id}",
+            "StageName": "dummy"
+          }
+        },
+        "AlphaStage" : {
+          "Type" : "AWS::ApiGateway::Stage",
+          "Properties" :
+          {
+            "DeploymentId" : {"Ref": "AlphaDeploy"},
+            "RestApiId": "${aws_api_gateway_rest_api.APIDemo.id}",
+            "StageName" : "alpha",
+            "ClientCertificateId" : "${var.GATEWAY_CERT_ID}"
+          }
+        }
       }
     }
-  }
-}
-STACK
+  STACK
 }
