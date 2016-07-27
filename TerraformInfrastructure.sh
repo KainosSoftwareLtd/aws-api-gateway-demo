@@ -12,4 +12,5 @@ case "$1" in
     ;;
 esac
 
-terraform apply -state=./Infrastructure/terraform.tfstate ./Infrastructure
+./Infrastructure/ApiGateway/GenerateCertificate.sh 
+terraform apply -state=./Infrastructure/terraform.tfstate -var-file=./Infrastructure/ApiGateway/terraform.tfvars ./Infrastructure

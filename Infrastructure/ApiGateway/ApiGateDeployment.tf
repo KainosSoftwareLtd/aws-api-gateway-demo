@@ -23,7 +23,7 @@ resource "aws_cloudformation_stack" "ApiGatewayDemoDeployment" {
   depends_on = ["null_resource.ApiReady"]
   template_body =
   <<STACK
-      {
+    {
       "Resources": {
         "AlphaDeploy": {
           "Type": "AWS::ApiGateway::Deployment",

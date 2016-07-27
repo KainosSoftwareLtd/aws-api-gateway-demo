@@ -3,7 +3,6 @@ module "RDS" {
   DB_USERNAME          = "${var.DB_USERNAME}"
   source               = "./RDS"
   main_vpc_id          = "${aws_vpc.vpc_main.id}"
-  region               = "${var.region}"
   db_subnet_group_name = "${aws_db_subnet_group.microservices.name}"
   security_group_ids   = ["${aws_security_group.allow_postgres.id}", "${aws_security_group.allow_microservices.id}"]
 }
@@ -19,7 +18,7 @@ module "FOOD_EC2" {
   SVC_VAR_NAME       = "FOOD_SVC"
   APP_PORT           = "${FOOD_SVC_APP_PORT}"
   ADMIN_PORT         = "${FOOD_SVC_ADMIN_PORT}"
-  region             = "${var.region}"
+  AWS_REGION             = "${var.AWS_REGION}"
   subnet_id          = "${aws_subnet.zone_a.id}"
   security_group_ids = [
     "${aws_security_group.allow_http_https.id}",
@@ -41,7 +40,7 @@ module "CUSTOMER_EC2" {
   db_endpoint        = "${module.RDS.microservices_db_endpoint}"
   DB_PASSWORD        = "${var.DB_PASSWORD}"
   DB_USERNAME        = "${var.DB_USERNAME}"
-  region             = "${var.region}"
+  AWS_REGION             = "${var.AWS_REGION}"
   subnet_id          = "${aws_subnet.zone_a.id}"
   SVC_VAR_NAME       = "CUST_SVC"
   APP_PORT           = "${CUST_SVC_APP_PORT}"

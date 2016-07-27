@@ -6,9 +6,7 @@ variable "FOODSVC_PATH" {
 }
 variable "CUSTOMERSVC_PATH" {
 }
-
-variable "region" {
-  default = "eu-central-1"
+variable "AWS_REGION" {
 }
 variable "FOOD_SVC_APP_PORT" {
 }

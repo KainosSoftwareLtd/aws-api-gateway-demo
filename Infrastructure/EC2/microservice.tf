@@ -1,5 +1,5 @@
 resource "aws_instance" "microservice" {
-  ami                    = "${lookup(var.amis, var.region)}"
+  ami                    = "${lookup(var.amis, var.AWS_REGION)}"
   instance_type          = "t2.micro"
   key_name               = "microservices"
   vpc_security_group_ids = ["${var.security_group_ids}"]

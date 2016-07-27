@@ -7,7 +7,5 @@ variable "security_group_ids" {
 }
 variable "main_vpc_id" {
 }
-variable "region" {
-}
 variable db_subnet_group_name {
 }
