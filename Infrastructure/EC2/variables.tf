@@ -9,6 +9,7 @@ variable "region" {}
 variable "APP_PORT" {}
 variable "ADMIN_PORT" {}
 variable "SVC_VAR_NAME" {}
+variable "CUST_SVC_URL" {}
 
 variable "amis" {
   default = {
