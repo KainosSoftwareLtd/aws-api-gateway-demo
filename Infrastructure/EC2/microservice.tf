@@ -39,6 +39,7 @@ resource "aws_instance" "microservice" {
 		"echo 'export DWDEMO_PASSWORD=${var.DB_PASSWORD}' >> ~/.bashrc",
 		"echo 'export ${var.SVC_VAR_NAME}_APP_PORT=${var.APP_PORT}' >> ~/.bashrc",
 		"echo 'export ${var.SVC_VAR_NAME}_ADMIN_PORT=${var.ADMIN_PORT}' >> ~/.bashrc",
+		"echo 'export CUST_SVC_URL=${var.CUST_SVC_URL}' >> ~/.bashrc",
 		"echo 'export DWDEMO_DB=jdbc:postgresql://${var.db_endpoint}/microservices' >> ~/.bashrc",
 		"source ~/.bashrc",
 

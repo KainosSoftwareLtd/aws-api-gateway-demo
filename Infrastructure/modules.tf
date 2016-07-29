@@ -17,6 +17,7 @@ module "FOOD_EC2" {
   SVC_VAR_NAME = "FOOD_SVC"
   APP_PORT = "${var.FOOD_SVC_APP_PORT}"
   ADMIN_PORT = "${var.FOOD_SVC_ADMIN_PORT}"
+  CUST_SVC_URL = "http://${module.CUSTOMER_EC2.ip_msvc}:${var.CUST_SVC_APP_PORT}"
   region = "${var.region}"
 }
 output "ip_food_msvc" {
@@ -35,6 +36,7 @@ module "CUSTOMER_EC2" {
   SVC_VAR_NAME = "CUST_SVC"
   APP_PORT = "${var.CUST_SVC_APP_PORT}"
   ADMIN_PORT = "${var.CUST_SVC_ADMIN_PORT}"
+  CUST_SVC_URL = "http://localhost:${var.CUST_SVC_APP_PORT}"
   region = "${var.region}"
 }
 output "ip_customer_msvc" {

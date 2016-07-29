@@ -1,6 +1,8 @@
 package com.kainos.apigateways.aws.demo.customer.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.kainos.apigateways.aws.demo.api.Customer.CustomerResponse;
+import com.kainos.apigateways.aws.demo.customer.Utils;
 import com.kainos.apigateways.aws.demo.customer.db.CustomerDao;
 import com.kainos.apigateways.aws.demo.customer.entities.Customer;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -26,9 +28,9 @@ public class CustomerResource {
     @Path("/{id}")
     @Timed
     @UnitOfWork(readOnly = true)
-    public Customer find(@PathParam("id") LongParam id) {
+    public CustomerResponse find(@PathParam("id") LongParam id) {
         throwIfCustomerNotFound(id.get());
-        return customerDao.findById(id.get());
+        return Utils.convertCustomerToCustomerResponse(customerDao.findById(id.get()));
     }
 
     @POST

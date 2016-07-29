@@ -1,6 +1,8 @@
 package com.kainos.apigateways.aws.demo.food.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.kainos.apigateways.aws.demo.api.Customer.CustomerResponse;
+import com.kainos.apigateways.aws.demo.food.clients.CustomerClient;
 import com.kainos.apigateways.aws.demo.food.db.FoodDao;
 import com.kainos.apigateways.aws.demo.food.entities.Food;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -18,9 +20,11 @@ public class FoodResource {
 
     private static final Logger logger = LoggerFactory.getLogger(FoodResource.class);
     private final FoodDao foodDao;
+    private CustomerClient customerClient;
 
-    public FoodResource(FoodDao foodDao) {
+    public FoodResource(FoodDao foodDao, CustomerClient customerClient) {
         this.foodDao = foodDao;
+        this.customerClient = customerClient;
     }
 
     @GET
@@ -80,11 +84,12 @@ public class FoodResource {
         Food food = foodDao.findById(id.get());
         logger.debug("Buying Food for Customer with id=" + customerId);
 
-        if (customerId == null){
-            logger.warn("No customerId provided in a buy request");
+        if (!customerPresent(customerId)) {
             return false;
         }
+
         logger.trace("Food that will be bought: " + food);
+        food.setCustomerId(customerId);
         foodDao.update(food);
         return true;
     }
@@ -101,6 +106,24 @@ public class FoodResource {
             logger.debug(message);
             throw new BadRequestException(message);
         }
+    }
+
+    private boolean customerPresent(Long customerId) {
+        if (customerId == null){
+            logger.warn("No customerId provided in a buy request");
+            return false;
+        }
+        try {
+            CustomerResponse customer = customerClient.getCustomer(customerId);
+            if (customer != null) {
+                return true;
+            }
+        } catch (Exception e) {
+            logger.error(e.getCause() + " - " + e.getMessage());
+            throw e;
+        }
+
+        return false;
     }
 
     /**

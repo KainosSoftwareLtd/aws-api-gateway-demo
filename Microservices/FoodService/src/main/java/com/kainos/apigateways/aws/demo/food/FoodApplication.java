@@ -1,5 +1,6 @@
 package com.kainos.apigateways.aws.demo.food;
 
+import com.kainos.apigateways.aws.demo.food.clients.CustomerClient;
 import com.kainos.apigateways.aws.demo.food.db.FoodDao;
 import com.kainos.apigateways.aws.demo.food.entities.Food;
 import com.kainos.apigateways.aws.demo.food.resources.FoodResource;
@@ -44,6 +45,7 @@ public class FoodApplication extends Application<AppConfiguration> {
     @Override
     public void run(AppConfiguration configuration, Environment environment) {
         final FoodDao dao = new FoodDao(hibernate.getSessionFactory());
-        environment.jersey().register(new FoodResource(dao));
+        CustomerClient customerClient = new CustomerClient(configuration.getCustomerServiceUrl());
+        environment.jersey().register(new FoodResource(dao, customerClient));
     }
 }

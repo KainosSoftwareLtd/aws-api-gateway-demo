@@ -1,3 +1,5 @@
+import com.kainos.apigateways.aws.demo.api.Customer.CustomerResponse;
+import com.kainos.apigateways.aws.demo.food.clients.CustomerClient;
 import com.kainos.apigateways.aws.demo.food.db.FoodDao;
 import com.kainos.apigateways.aws.demo.food.entities.Food;
 import com.kainos.apigateways.aws.demo.food.resources.FoodResource;
@@ -16,17 +18,20 @@ import static org.mockito.Mockito.*;
 public class FoodResourceTest {
 
     private FoodResource resource;
+    private CustomerClient client;
     private FoodDao dao;
 
     @Before
     public void setUp() {
         dao = mock(FoodDao.class);
-        resource = new FoodResource(dao);
+        client = mock(CustomerClient.class);
+        resource = new FoodResource(dao, client);
     }
 
     @After
     public void tearDown() {
         resource = null;
+        client = null;
         dao = null;
     }
 
@@ -94,11 +99,17 @@ public class FoodResourceTest {
 
     @Test
     public void buyCallsFindAndUpdateOnce() {
+        Food testFood = new Food(2l, "food", 2., 1);
+
         //pretend that Food with id=1 exists
         when(dao.exists(1)).thenReturn(true);
-        resource.buy(new LongParam("1"), (long) 1);
+        when(dao.findById(1l)).thenReturn(testFood);
+        when(client.getCustomer(3l)).thenReturn(new CustomerResponse());
+        resource.buy(new LongParam("1"), 3l);
+
         verify(dao, times(1)).findById((long) 1);
         verify(dao, times(1)).update(any(Food.class));
+        assertThat(testFood.getCustomerId()).isEqualTo(3l);
     }
 
     @Test
@@ -114,6 +125,8 @@ public class FoodResourceTest {
     public void buySucceedsIfFoodExistsAndCustomerIsNotNull() {
         //pretend that Food with id=1 exists
         when(dao.exists(1)).thenReturn(true);
+        when(dao.findById(1l)).thenReturn(new Food(2l, "food", 2., 1));
+        when(client.getCustomer(1l)).thenReturn(new CustomerResponse());
         boolean response = resource.buy(new LongParam("1"), (long) 1);
 
         assertThat(response).isTrue();
