@@ -14,7 +14,14 @@ public class AppConfiguration extends Configuration {
     @JsonProperty("database")
     private DataSourceFactory database = new DataSourceFactory();
 
+    @JsonProperty
+    private String customerServiceUrl;
+
     public DataSourceFactory getDataSourceFactory() {
         return database;
+    }
+
+    public String getCustomerServiceUrl() {
+        return customerServiceUrl;
     }
 }

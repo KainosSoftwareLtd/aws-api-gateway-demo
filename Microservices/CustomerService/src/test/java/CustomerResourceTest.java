@@ -87,6 +87,7 @@ public class CustomerResourceTest {
     public void findCallsDaoOnce() {
         //pretend that Customer with id=1 exists
         when(dao.exists(1)).thenReturn(true);
+        when(dao.findById(1l)).thenReturn(new Customer());
         resource.find(new LongParam("1"));
         verify(dao, times(1)).findById((long) 1);
     }
