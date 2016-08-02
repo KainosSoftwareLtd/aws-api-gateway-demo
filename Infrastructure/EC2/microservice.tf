@@ -15,33 +15,38 @@ resource "aws_eip" "MSVC_IP" {
   instance = "${aws_instance.microservice.id}"
   vpc      = true
 
+  connection {
+    user = "ec2-user"
+    host = "${aws_eip.MSVC_IP.public_ip}"
+  }
+
   # Microservice .jar file
   provisioner "file" {
     source      = "${var.MSVC_PATH}/target/${var.JAR_FILE}"
     destination = "~/${var.JAR_FILE}"
-    connection {
-      user = "ec2-user"
-      host = "${self.public_ip}"
-    }
   }
 
   # Config used by the microservice
   provisioner "file" {
     source      = "${var.MSVC_PATH}/config.yml"
     destination = "~/config.yml"
-    connection {
-      user = "ec2-user"
-      host = "${self.public_ip}"
-    }
+  }
+
+  # Keystore containing the server key
+  provisioner "file" {
+    source = "./keystore.jks"
+    destination = "~/keystore.jks"
+  }
+
+  # Keystore used to authorize API Gateway requests
+  provisioner "file" {
+    source = "./awsTrustStore.jks"
+    destination = "~/awsTrustStore.jks"
   }
 
   provisioner "file" {
     source      = "./Infrastructure/RunMicroservice.sh"
     destination = "~/RunMicroservice.sh"
-    connection {
-      user = "ec2-user"
-      host = "${self.public_ip}"
-    }
   }
 
   provisioner "remote-exec" {
@@ -53,8 +58,8 @@ resource "aws_eip" "MSVC_IP" {
       # Export environment variables
       "echo 'export DWDEMO_USER=${var.DB_USERNAME}' >> ~/.bashrc",
       "echo 'export DWDEMO_PASSWORD=${var.DB_PASSWORD}' >> ~/.bashrc",
-      "echo 'export ${SVC_VAR_NAME}_APP_PORT=${var.APP_PORT}' >> ~/.bashrc",
-      "echo 'export ${SVC_VAR_NAME}_ADMIN_PORT=${var.ADMIN_PORT}' >> ~/.bashrc",
+      "echo 'export ${var.SVC_VAR_NAME}_APP_PORT=${var.APP_PORT}' >> ~/.bashrc",
+      "echo 'export ${var.SVC_VAR_NAME}_ADMIN_PORT=${var.ADMIN_PORT}' >> ~/.bashrc",
       "echo 'export DWDEMO_DB=jdbc:postgresql://${var.db_endpoint}/microservices' >> ~/.bashrc",
       "source ~/.bashrc",
 
@@ -62,10 +67,6 @@ resource "aws_eip" "MSVC_IP" {
 
       # Start Microservice if it's not running.
       "(crontab -l 2>/dev/null; echo '*/2 * * * * ~/RunMicroservice.sh ~/${var.JAR_FILE} >> microservice.log 2>&1') | crontab -"]
-    connection {
-      user = "ec2-user"
-      host = "${self.public_ip}"
-    }
   }
 }
 

@@ -16,9 +16,9 @@ module "FOOD_EC2" {
   DB_PASSWORD        = "${var.DB_PASSWORD}"
   DB_USERNAME        = "${var.DB_USERNAME}"
   SVC_VAR_NAME       = "FOOD_SVC"
-  APP_PORT           = "${FOOD_SVC_APP_PORT}"
-  ADMIN_PORT         = "${FOOD_SVC_ADMIN_PORT}"
-  AWS_REGION             = "${var.AWS_REGION}"
+  APP_PORT           = "${var.FOOD_SVC_APP_PORT}"
+  ADMIN_PORT         = "${var.FOOD_SVC_ADMIN_PORT}"
+  AWS_REGION         = "${var.AWS_REGION}"
   subnet_id          = "${aws_subnet.zone_a.id}"
   security_group_ids = [
     "${aws_security_group.allow_http_https.id}",
@@ -40,11 +40,11 @@ module "CUSTOMER_EC2" {
   db_endpoint        = "${module.RDS.microservices_db_endpoint}"
   DB_PASSWORD        = "${var.DB_PASSWORD}"
   DB_USERNAME        = "${var.DB_USERNAME}"
-  AWS_REGION             = "${var.AWS_REGION}"
+  AWS_REGION         = "${var.AWS_REGION}"
   subnet_id          = "${aws_subnet.zone_a.id}"
   SVC_VAR_NAME       = "CUST_SVC"
-  APP_PORT           = "${CUST_SVC_APP_PORT}"
-  ADMIN_PORT         = "${CUST_SVC_ADMIN_PORT}"
+  APP_PORT           = "${var.CUST_SVC_APP_PORT}"
+  ADMIN_PORT         = "${var.CUST_SVC_ADMIN_PORT}"
   security_group_ids = [
     "${aws_security_group.allow_http_https.id}",
     "${aws_security_group.allow_microservices.id}",
@@ -59,7 +59,7 @@ output "ip_customer_msvc" {
 
 module "ApiGateway" {
   source           = "./ApiGateway"
-  CUST_MS_BASE_URL = "http://${module.CUSTOMER_EC2.ip_msvc}:${var.CUST_SVC_APP_PORT}"
-  FOOD_MS_BASE_URL = "http://${module.FOOD_EC2.ip_msvc}:${var.FOOD_SVC_APP_PORT}"
+  CUST_MS_BASE_URL = "https://${module.CUSTOMER_EC2.ip_msvc}:${var.CUST_SVC_APP_PORT}"
+  FOOD_MS_BASE_URL = "https://${module.FOOD_EC2.ip_msvc}:${var.FOOD_SVC_APP_PORT}"
   GATEWAY_CERT_ID = "${var.GATEWAY_CERT_ID}"
 }
