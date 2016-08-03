@@ -57,9 +57,15 @@ output "ip_customer_msvc" {
   value = "${module.CUSTOMER_EC2.ip_msvc}"
 }
 
+module "Lambda" {
+  source = "./Lambda"
+}
+
 module "ApiGateway" {
   source           = "./ApiGateway"
   CUST_MS_BASE_URL = "https://${module.CUSTOMER_EC2.ip_msvc}:${var.CUST_SVC_APP_PORT}"
   FOOD_MS_BASE_URL = "https://${module.FOOD_EC2.ip_msvc}:${var.FOOD_SVC_APP_PORT}"
-  GATEWAY_CERT_ID = "${var.GATEWAY_CERT_ID}"
+  GATEWAY_CERT_ID  = "${var.GATEWAY_CERT_ID}"
+  PROXY_URI        = "arn:aws:apigateway:${var.AWS_REGION}:lambda:path/2016-08-02/functions/${module.Lambda.proxy_arn}/invocations"
 }
+

@@ -6,14 +6,28 @@ resource "aws_api_gateway_method" "Method" {
   request_parameters_in_json = "${var.REQUEST_PARAMS}"
 }
 
+//resource "aws_api_gateway_integration" "Integration" {
+//  rest_api_id = "${var.REST_API_ID}"
+//  resource_id = "${var.RESOURCE_ID}"
+//  http_method = "${var.HTTP_METHOD}"
+//  integration_http_method = "${var.HTTP_METHOD}"
+//  type = "HTTP"
+//  uri = "${var.URI}"
+//  request_parameters_in_json = "${var.REQUEST_PARAMS_MAPPING}"
+//  depends_on = ["aws_api_gateway_method.Method"]
+//}
+
 resource "aws_api_gateway_integration" "Integration" {
   rest_api_id = "${var.REST_API_ID}"
   resource_id = "${var.RESOURCE_ID}"
   http_method = "${var.HTTP_METHOD}"
-  integration_http_method = "${var.HTTP_METHOD}"
-  type = "HTTP"
+  integration_http_method = "POST" # Lambda function can only be invoked with POST
+  type = "AWS"
   uri = "${var.URI}"
-  request_parameters_in_json = "${var.REQUEST_PARAMS_MAPPING}"
+//  request_parameters_in_json = "${var.REQUEST_PARAMS_MAPPING}"
+  request_templates = {
+    "application/json" = "${file("${path.module}/api_gateway_body_mapping.template")}"
+  }
   depends_on = ["aws_api_gateway_method.Method"]
 }
 

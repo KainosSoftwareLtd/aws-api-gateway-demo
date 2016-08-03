@@ -32,18 +32,6 @@ resource "aws_eip" "MSVC_IP" {
     destination = "~/config.yml"
   }
 
-  # Keystore containing the server key
-  provisioner "file" {
-    source = "./keystore.jks"
-    destination = "~/keystore.jks"
-  }
-
-  # Keystore used to authorize API Gateway requests
-  provisioner "file" {
-    source = "./awsTrustStore.jks"
-    destination = "~/awsTrustStore.jks"
-  }
-
   provisioner "file" {
     source      = "./Infrastructure/RunMicroservice.sh"
     destination = "~/RunMicroservice.sh"

@@ -12,5 +12,5 @@ case "$1" in
     ;;
 esac
 
-./Infrastructure/ApiGateway/GenerateCertificate.sh 
+zip  --junk-paths --filesync ./Infrastructure/proxy.zip ./Infrastructure/Lambda/ProxyApiGatewayToBackend.js
 terraform apply -state=./Infrastructure/terraform.tfstate -var-file=./Infrastructure/ApiGateway/terraform.tfvars ./Infrastructure

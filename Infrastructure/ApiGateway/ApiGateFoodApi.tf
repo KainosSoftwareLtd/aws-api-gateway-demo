@@ -1,111 +1,111 @@
 # /api/food
 resource "aws_api_gateway_resource" "FoodResource" {
   rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  parent_id = "${aws_api_gateway_resource.RootResource.id}"
-  path_part = "food"
+  parent_id   = "${aws_api_gateway_resource.RootResource.id}"
+  path_part   = "food"
 }
 
 # /api/food/{id}
 resource "aws_api_gateway_resource" "FoodIdResource" {
   rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  parent_id = "${aws_api_gateway_resource.FoodResource.id}"
-  path_part = "{id}"
+  parent_id   = "${aws_api_gateway_resource.FoodResource.id}"
+  path_part   = "{id}"
 }
 
 # GET /api/food/{id}
 module "FoodGetByIdMethod" {
-  source = "./BasicHttpMethod"
+  source                 = "./BasicHttpMethod"
 
-  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
-  RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
-  HTTP_METHOD = "GET"
-  URI = "${var.FOOD_MS_BASE_URL}/food/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REST_API_ID            = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID            = "${aws_api_gateway_resource.FoodIdResource.id}"
+  HTTP_METHOD            = "GET"
+  URI                    = "${var.PROXY_URI}"
+  REQUEST_PARAMS         = "${var.PATH_ID_PARAM["REQUIRED"]}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # PUT /api/food/{id}
 module "FoodPutByIdMethod" {
-  source = "./BasicHttpMethod"
+  source                 = "./BasicHttpMethod"
 
-  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
-  RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
-  HTTP_METHOD = "PUT"
-  URI = "${var.FOOD_MS_BASE_URL}/food/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REST_API_ID            = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID            = "${aws_api_gateway_resource.FoodIdResource.id}"
+  HTTP_METHOD            = "PUT"
+  URI                    = "${var.PROXY_URI}"
+  REQUEST_PARAMS         = "${var.PATH_ID_PARAM["REQUIRED"]}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # DELETE /api/food/{id}
 module "FoodDeleteByIdMethod" {
-  source = "./BasicHttpMethod"
+  source                 = "./BasicHttpMethod"
 
-  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
-  RESOURCE_ID = "${aws_api_gateway_resource.FoodIdResource.id}"
-  HTTP_METHOD = "DELETE"
-  URI = "${var.FOOD_MS_BASE_URL}/food/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REST_API_ID            = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID            = "${aws_api_gateway_resource.FoodIdResource.id}"
+  HTTP_METHOD            = "DELETE"
+  URI                    = "${var.PROXY_URI}"
+  REQUEST_PARAMS         = "${var.PATH_ID_PARAM["REQUIRED"]}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # POST /api/food
 module "FoodCreateMethod" {
-  source = "./BasicHttpMethod"
+  source      = "./BasicHttpMethod"
 
   REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
   RESOURCE_ID = "${aws_api_gateway_resource.FoodResource.id}"
   HTTP_METHOD = "POST"
-  URI = "${var.FOOD_MS_BASE_URL}/food"
+  URI         = "${var.PROXY_URI}"
 }
 
 # /api/food/allForCustomer
 resource "aws_api_gateway_resource" "FoodAllForCustomerResource" {
   rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  parent_id = "${aws_api_gateway_resource.FoodResource.id}"
-  path_part = "allForCustomer"
+  parent_id   = "${aws_api_gateway_resource.FoodResource.id}"
+  path_part   = "allForCustomer"
 }
 
 # /api/food/allForCustomer/{id}
 resource "aws_api_gateway_resource" "FoodAllForCustomerByIdResource" {
   rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  parent_id = "${aws_api_gateway_resource.FoodAllForCustomerResource.id}"
-  path_part = "{id}"
+  parent_id   = "${aws_api_gateway_resource.FoodAllForCustomerResource.id}"
+  path_part   = "{id}"
 }
 
 # GET /api/food/allForCustomer
 module "FoodGetAllForCustomerByIdMethod" {
-  source = "./BasicHttpMethod"
+  source                 = "./BasicHttpMethod"
 
-  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
-  RESOURCE_ID = "${aws_api_gateway_resource.FoodAllForCustomerByIdResource.id}"
-  HTTP_METHOD = "GET"
-  URI = "${var.FOOD_MS_BASE_URL}/food/allForCustomer/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REST_API_ID            = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID            = "${aws_api_gateway_resource.FoodAllForCustomerByIdResource.id}"
+  HTTP_METHOD            = "GET"
+  URI                    = "${var.PROXY_URI}"
+  REQUEST_PARAMS         = "${var.PATH_ID_PARAM["REQUIRED"]}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }
 
 # /api/food/buy
 resource "aws_api_gateway_resource" "FoodBuyResource" {
   rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  parent_id = "${aws_api_gateway_resource.FoodResource.id}"
-  path_part = "buy"
+  parent_id   = "${aws_api_gateway_resource.FoodResource.id}"
+  path_part   = "buy"
 }
 
 # /api/food/buy/{id}
 resource "aws_api_gateway_resource" "FoodBuyIdResource" {
   rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
-  parent_id = "${aws_api_gateway_resource.FoodBuyResource.id}"
-  path_part = "{id}"
+  parent_id   = "${aws_api_gateway_resource.FoodBuyResource.id}"
+  path_part   = "{id}"
 }
 
 # POST /api/food/buy/{id}
 module "FoodPostBuyIdMethod" {
-  source = "./BasicHttpMethod"
+  source                 = "./BasicHttpMethod"
 
-  REST_API_ID = "${aws_api_gateway_rest_api.APIDemo.id}"
-  RESOURCE_ID = "${aws_api_gateway_resource.FoodBuyIdResource.id}"
-  HTTP_METHOD = "POST"
-  URI = "${var.FOOD_MS_BASE_URL}/food/buy/{id}"
-  REQUEST_PARAMS = "${var.PATH_ID_PARAM["REQUIRED"]}"
+  REST_API_ID            = "${aws_api_gateway_rest_api.APIDemo.id}"
+  RESOURCE_ID            = "${aws_api_gateway_resource.FoodBuyIdResource.id}"
+  HTTP_METHOD            = "POST"
+  URI                    = "${var.PROXY_URI}"
+  REQUEST_PARAMS         = "${var.PATH_ID_PARAM["REQUIRED"]}"
   REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM["INTEGRATION_MAPPING"]}"
 }

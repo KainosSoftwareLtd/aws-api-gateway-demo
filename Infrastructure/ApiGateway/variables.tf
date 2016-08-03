@@ -4,6 +4,8 @@ variable "FOOD_MS_BASE_URL" {
 }
 variable "GATEWAY_CERT_ID" {
 }
+variable "PROXY_URI" {
+}
 
 variable "PATH_ID_PARAM" {
   default = {
