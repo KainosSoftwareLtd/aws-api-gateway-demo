@@ -47,11 +47,10 @@ public class FoodResource {
     @POST
     @Timed
     @UnitOfWork
-    public long create(@FormParam("customerId") Long customerId,
-                       @FormParam("name") String name,
-                       @FormParam("quantity") double quantity,
-                       @FormParam("price") int price) {
-        return foodDao.create(new Food(customerId, name, quantity, price));
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public long create(Food food) {
+        return foodDao.create(food);
     }
 
     @DELETE
@@ -74,23 +73,30 @@ public class FoodResource {
         return true;
     }
 
+    /**
+     *
+     * @param id Food identifier
+     * @param foodWithOwner Used only to retrieve the customerId of the buyer
+     * @return false if a customer with the given ID doesn't exist
+     */
     @Path("/buy/{id}")
     @POST
     @Timed
     @UnitOfWork
-    public boolean buy(@PathParam("id") LongParam id,
-                    @FormParam("customerId") Long customerId) {
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public boolean buy(@PathParam("id") LongParam id, Food foodWithOwner) {
         throwIfFoodNotFound(id.get());
-        Food food = foodDao.findById(id.get());
-        logger.debug("Buying Food for Customer with id=" + customerId);
+        Food storedFood = foodDao.findById(id.get());
 
-        if (!customerPresent(customerId)) {
+        if (!customerPresent(foodWithOwner)) {
             return false;
         }
 
-        logger.trace("Food that will be bought: " + food);
-        food.setCustomerId(customerId);
-        foodDao.update(food);
+        logger.debug("Buying Food for Customer with id=" + foodWithOwner.getCustomerId());
+        logger.trace("Food that will be bought: " + storedFood);
+        storedFood.setCustomerId(foodWithOwner.getCustomerId());
+        foodDao.update(storedFood);
         return true;
     }
 
@@ -108,13 +114,13 @@ public class FoodResource {
         }
     }
 
-    private boolean customerPresent(Long customerId) {
-        if (customerId == null){
+    private boolean customerPresent(Food food) {
+        if (food == null || food.getCustomerId() == null) {
             logger.warn("No customerId provided in a buy request");
             return false;
         }
         try {
-            CustomerResponse customer = customerClient.getCustomer(customerId);
+            CustomerResponse customer = customerClient.getCustomer(food.getCustomerId());
             if (customer != null) {
                 return true;
             }

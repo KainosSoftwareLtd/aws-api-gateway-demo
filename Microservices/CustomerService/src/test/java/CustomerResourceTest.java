@@ -59,7 +59,7 @@ public class CustomerResourceTest {
 
     @Test
     public void createCallsDaoOnce() {
-        resource.create("Name");
+        resource.create(new Customer());
         verify(dao, times(1)).create(any(Customer.class));
     }
 

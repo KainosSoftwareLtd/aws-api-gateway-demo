@@ -173,7 +173,8 @@ Run the microservices locally. Point the `RunMicroservice.sh` script to the .jar
     ./Infrastructure/RunMicroservice.sh $CUSTOMERSVC_PATH/target/customer-root-1.0-SNAPSHOT.jar $CUSTOMERSVC_PATH/config.yml
     
 `RunMicroservice.sh` won't produce any output if a given .jar file is already running.
-
+## API
+The accepted content type is `application/json`.
 ## Food Service
 Default port: 8080
 ### Supported methods
@@ -183,7 +184,19 @@ Default port: 8080
 * GET     /food/allForCustomer/{customerId}
 * PUT     /food/{id}
 * DELETE  /food/{id}
+### Request body
+Create, update:
 
+    {
+        "name" : "banana"
+        "quantity": 0.5
+        "price": 999
+    }
+Buy:
+
+    {
+        "customerId": 1
+    }
 ## Customer Service
 Default port: 8082
 ### Supported methods
@@ -191,3 +204,9 @@ Default port: 8082
 * GET     /customer/{id}
 * PUT     /customer/{id}
 * DELETE  /customer/{id}
+### Request body
+Create, update: 
+
+    {
+        "name": "John"
+    }
