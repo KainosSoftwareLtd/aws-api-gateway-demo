@@ -75,25 +75,25 @@ public class FoodResource {
 
     /**
      *
-     * @param id Food identifier
+     * @param foodId Food identifier
      * @param foodWithOwner Used only to retrieve the customerId of the buyer
      * @return false if a customer with the given ID doesn't exist
      */
-    @Path("/buy/{id}")
+    @Path("/buy/{foodId}")
     @POST
     @Timed
     @UnitOfWork
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public boolean buy(@PathParam("id") LongParam id, Food foodWithOwner) {
-        throwIfFoodNotFound(id.get());
-        Food storedFood = foodDao.findById(id.get());
+    public boolean buy(@PathParam("foodId") LongParam foodId, Food foodWithOwner) {
+        throwIfFoodNotFound(foodId.get());
+        Food storedFood = foodDao.findById(foodId.get());
 
         if (!customerPresent(foodWithOwner)) {
             return false;
         }
 
-        logger.debug("Buying Food for Customer with id=" + foodWithOwner.getCustomerId());
+        logger.debug("Buying Food for Customer with foodId=" + foodWithOwner.getCustomerId());
         logger.trace("Food that will be bought: " + storedFood);
         storedFood.setCustomerId(foodWithOwner.getCustomerId());
         foodDao.update(storedFood);
@@ -121,15 +121,11 @@ public class FoodResource {
         }
         try {
             CustomerResponse customer = customerClient.getCustomer(food.getCustomerId());
-            if (customer != null) {
-                return true;
-            }
+            return (customer != null);
         } catch (Exception e) {
             logger.error(e.getCause() + " - " + e.getMessage());
             throw e;
         }
-
-        return false;
     }
 
     /**

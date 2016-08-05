@@ -186,17 +186,19 @@ Default port: 8080
 * DELETE  /food/{id}
 ### Request body
 Create, update:
-
-    {
-        "name" : "banana"
-        "quantity": 0.5
-        "price": 999
-    }
+```
+{
+    "name" : "banana"
+    "quantity": 0.5
+    "price": 999
+}
+```
 Buy:
-
-    {
-        "customerId": 1
-    }
+```
+{
+    "customerId": 1
+}
+```
 ## Customer Service
 Default port: 8082
 ### Supported methods
@@ -206,7 +208,8 @@ Default port: 8082
 * DELETE  /customer/{id}
 ### Request body
 Create, update: 
-
-    {
-        "name": "John"
-    }
+```
+{
+    "name": "John"
+}
+```

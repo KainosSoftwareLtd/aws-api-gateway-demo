@@ -39,7 +39,7 @@ public class CustomerResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public long create(Customer customer) {
-        return customerDao.create(new Customer(customer.getName()));
+        return customerDao.create(customer);
     }
 
     @DELETE
