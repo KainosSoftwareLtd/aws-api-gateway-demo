@@ -65,8 +65,9 @@ public class FoodResourceTest {
 
     @Test
     public void createCallsDaoOnce() {
-        resource.create((long) 1, "Name", 0.9, 999);
-        verify(dao, times(1)).create(any(Food.class));
+        Food food = mock(Food.class);
+        resource.create(food);
+        verify(dao, times(1)).create(food);
     }
 
     @Test
@@ -99,13 +100,15 @@ public class FoodResourceTest {
 
     @Test
     public void buyCallsFindAndUpdateOnce() {
-        Food testFood = new Food(2l, "food", 2., 1);
+        Food testFood = new Food(1l, "food", 2., 1);
+        Food foodWithOwner = new Food();
+        foodWithOwner.setCustomerId(3l);
 
         //pretend that Food with id=1 exists
         when(dao.exists(1)).thenReturn(true);
         when(dao.findById(1l)).thenReturn(testFood);
         when(client.getCustomer(3l)).thenReturn(new CustomerResponse());
-        resource.buy(new LongParam("1"), 3l);
+        resource.buy(new LongParam("1"), foodWithOwner);
 
         verify(dao, times(1)).findById((long) 1);
         verify(dao, times(1)).update(any(Food.class));
@@ -123,11 +126,14 @@ public class FoodResourceTest {
 
     @Test
     public void buySucceedsIfFoodExistsAndCustomerIsNotNull() {
+        Food testFood = new Food(2l, "food", 2., 1);
+        testFood.setCustomerId(1l);
+
         //pretend that Food with id=1 exists
         when(dao.exists(1)).thenReturn(true);
-        when(dao.findById(1l)).thenReturn(new Food(2l, "food", 2., 1));
+        when(dao.findById(1l)).thenReturn(testFood);
         when(client.getCustomer(1l)).thenReturn(new CustomerResponse());
-        boolean response = resource.buy(new LongParam("1"), (long) 1);
+        boolean response = resource.buy(new LongParam("1"), testFood);
 
         assertThat(response).isTrue();
     }

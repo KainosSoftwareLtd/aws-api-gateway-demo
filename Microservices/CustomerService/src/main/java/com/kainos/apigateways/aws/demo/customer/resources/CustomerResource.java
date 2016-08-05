@@ -36,8 +36,10 @@ public class CustomerResource {
     @POST
     @Timed
     @UnitOfWork
-    public long create(@FormParam("name") String name) {
-        return customerDao.create(new Customer(name));
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public long create(Customer customer) {
+        return customerDao.create(customer);
     }
 
     @DELETE

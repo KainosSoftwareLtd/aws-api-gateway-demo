@@ -16,6 +16,7 @@ public class Food {
     @JsonProperty
     private Long id;
 
+    @JsonProperty
     private Long customerId;
 
     @Length(min = 2)
