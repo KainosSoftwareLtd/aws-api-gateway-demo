@@ -1,7 +1,7 @@
 # AWS API Gateway Demo - WIP
 
 ## Infrastructure
-The AWS infrastructure is being built with [Terraform](https://www.terraform.io/) 0.7.0-rc3.
+The AWS infrastructure is being built with [Terraform](https://www.terraform.io/) 0.7.0.
 All Terraform configs are located in the `Infrastructure` directory. Currently config brings up a security group, 
 EC2 instances and a mock API Gateway definition.
 ### Bringing up the environment
@@ -30,8 +30,6 @@ and create a Key Pair named "microservices". Put the `microservices.pem` in the 
     ssh-add -K ~/.ssh/microservices.pem
     
 Create the AWS infrastructure by running `TerraformInfrastructure.sh`:
-This script will also generate a client certificate for the API Gateway to use when communicating with the microservices and save its ID to a .tfvars file.
-If a certificate ID is already defined in `./Infrastructure/ApiGateway/terraform.tfvars` the generation will be omitted.
 
     chmod +x TerraformInfrastructure.sh
     ./TerraformInfrastructure.sh
@@ -54,6 +52,24 @@ Microservice's output is written to `~/microservice.log`.
 ### RDS
 Microservices connect to a PostgreSQL database created before the EC2 instances.
 
+### IAM
+The IAM module contains roles which allow the API Gateway to use Lambda functions and CloudWatch logs.
+
+### Lambda; WIP - requires manual adjustments
+(Warning) Currently the Lambda proxy works only for /POST methods. 
+The private IP address of the microservice targeted by Lambda proxy function is hardcoded. 
+You need to check the IP address of your microservice and put it in the `api_gateway_body_mapping.template` ex:
+    
+    "hostname" : "10.0.1.216",    
+Run terraform again to update the AWS infrastructure:
+
+    ./TerraformInfrastructure.sh 
+(End of warning)
+
+API Gateway can't communicate directly with a microservice located inside of a VPC. A Lambda function is used to proxy calls between the public API Gateway and the backend services.
+Lambda function written in Node.js is packed to the `proxy.zip` file which is then used in the `LambdaVpcProxy.tf` file.
+
+
 ### API Gateway
 Currently API Gateway is brought up only to reflect current endpoints in the backend API. 
 At this moment it is used to pass the input into the corresponding endpoint without modifying any data and responding with 200 response which contains
@@ -63,26 +79,29 @@ After the API is defined by the above, it needs to be deployed. This is done in 
 All variables required by this module are defined in `variables.tf`. Individual endpoints are created by supplying 4 components attached to
 appropriate path. 
 
+API Gateway path contains the name of a stage of deployment followed by the rest of the path. Stages are defined in `ApiGateDeployment.tf`. Ex. for an "alpha" stage:
+
+    https://z27x29afsb.execute-api.eu-central-1.amazonaws.com/alpha/food/1
+    
 In terraform the path is defined with `path_part` property in a set of `aws_api_gateway_resource` components. 
 
-    # /api/customer
+    # /customer
     resource "aws_api_gateway_resource" "CustomerResource" {
       rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
       parent_id = "${aws_api_gateway_resource.RootResource.id}"
       path_part = "customer"
     }
-    
-    # /api/customer/{id}
+
+    # /customer/{id}
     resource "aws_api_gateway_resource" "CustomerIdResource" {
       rest_api_id = "${aws_api_gateway_rest_api.APIDemo.id}"
       parent_id = "${aws_api_gateway_resource.CustomerResource.id}"
       path_part = "{id}"
     }
-
 In this configuration the 4 components required to create an endpoint are defined in `BasicHttpMethod` sub-module. 
 `BasicHttpMethod` can be instantiated to create a basic definition of a HTTP endpoint:
 
-    # GET /api/customer/{id}
+    # GET /customer/{id}
     module "CustomerGetByIdMethod" {
       source = "./BasicHttpMethod"
       
@@ -94,7 +113,7 @@ In this configuration the 4 components required to create an endpoint are define
       REQUEST_PARAMS_MAPPING = "${var.PATH_ID_PARAM.INTEGRATION_MAPPING}"
     }
 
-#### BasicHttpMethod sub-module
+#### BasicHttpMethod sub-module; WIP - outdated, needs to be rewritten when the Lambda proxy is finished
 This is a helper module that defines a basic HTTP API Gateway method. This is done by creating `aws_api_gateway_method`,
 `aws_api_gateway_integration`, `aws_api_gateway_method_response` and `aws_api_gateway_integration_response`.
 

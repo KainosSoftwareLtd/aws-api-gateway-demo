@@ -43,11 +43,10 @@ public class FoodResource {
     @POST
     @Timed
     @UnitOfWork
-    public long create(@FormParam("customerId") Long customerId,
-                       @FormParam("name") String name,
-                       @FormParam("quantity") double quantity,
-                       @FormParam("price") int price) {
-        return foodDao.create(new Food(customerId, name, quantity, price));
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public long create(Food food) {
+        return foodDao.create(food);
     }
 
     @DELETE

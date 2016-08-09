@@ -60,8 +60,9 @@ public class FoodResourceTest {
 
     @Test
     public void createCallsDaoOnce() {
-        resource.create((long) 1, "Name", 0.9, 999);
-        verify(dao, times(1)).create(any(Food.class));
+        Food food = mock(Food.class);
+        resource.create(food);
+        verify(dao, times(1)).create(food);
     }
 
     @Test

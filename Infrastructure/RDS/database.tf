@@ -10,6 +10,7 @@ resource "aws_db_instance" "microservices" {
   vpc_security_group_ids = ["${var.security_group_ids}"]
   db_subnet_group_name   = "${var.db_subnet_group_name}"
   multi_az               = false
+  publicly_accessible    = true
 
   tags {
     Name  = "msvc_database"

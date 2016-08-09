@@ -38,8 +38,7 @@ resource "aws_cloudformation_stack" "ApiGatewayDemoDeployment" {
           {
             "DeploymentId" : {"Ref": "AlphaDeploy"},
             "RestApiId": "${aws_api_gateway_rest_api.APIDemo.id}",
-            "StageName" : "alpha",
-            "ClientCertificateId" : "${var.GATEWAY_CERT_ID}"
+            "StageName" : "alpha"
           }
         }
       }

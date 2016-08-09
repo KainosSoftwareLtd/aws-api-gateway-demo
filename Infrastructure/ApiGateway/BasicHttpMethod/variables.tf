@@ -8,3 +8,10 @@ variable "REQUEST_PARAMS" {
 variable "REQUEST_PARAMS_MAPPING" {
 	default = ""
 }
+variable "LAMBDA_VPC_EXECUTION_ROLE_ARN" {
+	type = "string"
+}
+variable "EMPTY_MODEL_NAME" {
+	type = "string"
+	default = "EmptyModel"
+}

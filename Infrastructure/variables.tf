@@ -16,5 +16,3 @@ variable "CUST_SVC_APP_PORT" {
 }
 variable "CUST_SVC_ADMIN_PORT" {
 }
-variable "GATEWAY_CERT_ID" {
-}

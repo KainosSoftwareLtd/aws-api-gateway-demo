@@ -1,13 +1,21 @@
 resource "aws_security_group" "allow_microservices" {
   name        = "allow_microservices"
-  description = "Allow incoming Microservices traffic"
+  description = "Allow Microservices traffic in our VPC"
   vpc_id      = "${aws_vpc.vpc_main.id}"
 
   ingress {
     from_port   = 8080
     to_port     = 8083
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${aws_vpc.vpc_main.cidr_block}"]
+  }
+
+  // Used by AWS Lambda
+  egress {
+    from_port   = 8080
+    to_port     = 8083
+    protocol    = "tcp"
+    cidr_blocks = ["${aws_vpc.vpc_main.cidr_block}"]
   }
 }
 

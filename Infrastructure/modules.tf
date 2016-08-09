@@ -57,15 +57,23 @@ output "ip_customer_msvc" {
   value = "${module.CUSTOMER_EC2.ip_msvc}"
 }
 
+module "IAM" {
+  source = "./IAM"
+}
+
 module "Lambda" {
   source = "./Lambda"
+  vpc_id = "${aws_vpc.vpc_main.id}"
+  subnet_ids = ["${aws_subnet.zone_a.id}", "${aws_subnet.zone_b.id}"]
+  security_group_ids = ["${aws_security_group.allow_microservices.id}"]
+  allow_lambda_arn = "${module.IAM.allow_lambda_arn}"
 }
 
 module "ApiGateway" {
   source           = "./ApiGateway"
   CUST_MS_BASE_URL = "https://${module.CUSTOMER_EC2.ip_msvc}:${var.CUST_SVC_APP_PORT}"
   FOOD_MS_BASE_URL = "https://${module.FOOD_EC2.ip_msvc}:${var.FOOD_SVC_APP_PORT}"
-  GATEWAY_CERT_ID  = "${var.GATEWAY_CERT_ID}"
-  PROXY_URI        = "arn:aws:apigateway:${var.AWS_REGION}:lambda:path/2016-08-02/functions/${module.Lambda.proxy_arn}/invocations"
+  PROXY_URI        = "arn:aws:apigateway:${var.AWS_REGION}:lambda:path/2015-03-31/functions/${module.Lambda.proxy_arn}/invocations"
+  LAMBDA_VPC_EXECUTION_ROLE_ARN = "${module.IAM.allow_lambda_arn}"
 }
 

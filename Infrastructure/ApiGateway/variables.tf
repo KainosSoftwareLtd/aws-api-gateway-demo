@@ -2,9 +2,10 @@ variable "CUST_MS_BASE_URL" {
 }
 variable "FOOD_MS_BASE_URL" {
 }
-variable "GATEWAY_CERT_ID" {
-}
 variable "PROXY_URI" {
+}
+variable "LAMBDA_VPC_EXECUTION_ROLE_ARN" {
+  type = "string"
 }
 
 variable "PATH_ID_PARAM" {
